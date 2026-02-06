@@ -1,0 +1,12 @@
+# Vivado Project & Simulation Garbage
+*.log
+*.jou
+*.pb
+*.wdb
+*.str
+.Xil/
+xsim.dir/
+*.os
+*.bit
+*.bin
+*.vcd
