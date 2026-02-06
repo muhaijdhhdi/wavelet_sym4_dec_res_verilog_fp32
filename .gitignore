@@ -10,3 +10,4 @@ xsim.dir/
 *.bit
 *.bin
 *.vcd
+*.v.out
