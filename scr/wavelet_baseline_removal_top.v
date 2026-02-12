@@ -46,20 +46,20 @@
 //`define  VIVADO_SIM
 
 `ifndef VIVADO_SIM
-    `include "../baseLine/decompose_L1.v"
-    `include "../baseLine/decompose_L2.v"
-    `include "../baseLine/decompose_L3.v"
-    `include "../baseLine/decompose_L4.v"
-    `include "../baseLine/decompose_L5.v"
-    `include "../baseLine/decompose_L6.v"
-    `include "../baseLine/decompose_L7.v"
-    `include "../baseLine/reconstruct_L7.v" 
-    `include "../baseLine/reconstruct_L6.v"
-    `include "../baseLine/reconstruct_L5.v"
-    `include "../baseLine/reconstruct_L4.v"
-    `include "../baseLine/reconstruct_L3.v"
-    `include "../baseLine/reconstruct_L2.v"
-    `include "../baseLine/reconstruct_L1.v"
+    `include "../../scr/decompose_L1.v"
+    `include "../../scr/decompose_L2.v"
+    `include "../../scr/decompose_L3.v"
+    `include "../../scr/decompose_L4.v"
+    `include "../../scr/decompose_L5.v"
+    `include "../../scr/decompose_L6.v"
+    `include "../../scr/decompose_L7.v"
+    `include "../../scr/reconstruct_L7.v" 
+    `include "../../scr/reconstruct_L6.v"
+    `include "../../scr/reconstruct_L5.v"
+    `include "../../scr/reconstruct_L4.v"
+    `include "../../scr/reconstruct_L3.v"
+    `include "../../scr/reconstruct_L2.v"
+    `include "../../scr/reconstruct_L1.v"
 `endif 
 
 module wavelet_baseline_removal_top #(

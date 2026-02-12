@@ -16,8 +16,18 @@ module fp32_adder_sub (
     reg [7:0] exp_a1, exp_b1;
     reg [23:0] man_a1, man_b1;  // 包含隐含的1
     
+    reg is_zero_a1, is_zero_b1;
+    reg is_inf_a1, is_inf_b1;
+    reg is_nan_a1, is_nan_b1;
+
     always @(posedge clk or negedge rstn) begin
         if (!rstn) begin
+            is_zero_a1 <= 1'b0;
+            is_zero_b1 <= 1'b0;
+            is_inf_a1 <= 1'b0;
+            is_inf_b1 <= 1'b0;
+            is_nan_a1 <= 1'b0;
+            is_nan_b1 <= 1'b0;
             dina_r1 <= 32'h0;
             dinb_r1 <= 32'h0;
             op_r1 <= 1'b0;
@@ -37,11 +47,18 @@ module fp32_adder_sub (
             // Extract sign, exponent, mantissa
             sign_a1 <= dina[31];
             exp_a1 <= dina[30:23];
-            man_a1 <= {(dina[30:23] != 8'h0), dina[22:0]};  // 隐含1
+            man_a1 <= {(dina[30:23] != 8'h0), dina[22:0]};  // 隐含1，如果全是0则加上隐含的0
             
             sign_b1 <= dinb[31];
             exp_b1 <= dinb[30:23];
             man_b1 <= {(dinb[30:23] != 8'h0), dinb[22:0]};  // 隐含1
+
+            is_zero_a1 <= (dina[30:0] == 31'h0);
+            is_zero_b1 <= (dinb[30:0] == 31'h0);
+            is_inf_a1 <= (dina[30:23] == 8'hFF) && (dina[22:0] == 23'h0);
+            is_inf_b1 <= (dinb[30:23] == 8'hFF) && (dinb[22:0] == 23'h0);
+            is_nan_a1 <= (dina[30:23] == 8'hFF) && (dina[22:0] != 23'h0);
+            is_nan_b1 <= (dinb[30:23] == 8'hFF) && (dinb[22:0] != 23'h0);
         end
     end
 
@@ -51,6 +68,9 @@ module fp32_adder_sub (
     reg sign_a2, sign_b2_adj;
     reg [31:0] dina_r2, dinb_r2;
     reg valid_r2;
+    reg is_zero_a2, is_zero_b2;
+    reg is_inf_a2, is_inf_b2;
+    reg is_nan_a2,is_nan_b2;
     
     always @(posedge clk or negedge rstn) begin
         if (!rstn) begin
@@ -62,7 +82,21 @@ module fp32_adder_sub (
             dina_r2 <= 32'h0;
             dinb_r2 <= 32'h0;
             valid_r2 <= 1'b0;
+            is_zero_a2 <= 1'b0;
+            is_zero_b2 <= 1'b0;
+            is_inf_a2 <= 1'b0;
+            is_inf_b2 <= 1'b0;
+            is_nan_a2 <= 1'b0;
+            is_nan_b2 <= 1'b0;
+
         end else begin
+            is_zero_a2 <= is_zero_a1;
+            is_zero_b2 <= is_zero_b1;
+            is_inf_a2 <= is_inf_a1;
+            is_inf_b2 <= is_inf_b1;
+            is_nan_a2 <= is_nan_a1;
+            is_nan_b2 <= is_nan_b1;
+
             dina_r2 <= dina_r1;
             dinb_r2 <= dinb_r1;
             valid_r2 <= valid_r1;
@@ -89,7 +123,33 @@ module fp32_adder_sub (
     reg [7:0] exp_result3;
     reg sign_result3;
     reg valid_r3;
+
+    reg sign_a3, sign_b3_adj;
     
+    reg is_zero_a3, is_zero_b3;
+    reg is_inf_a3, is_inf_b3;
+    reg is_nan_a3, is_nan_b3;
+        always @(posedge clk or negedge rstn) begin
+            if (!rstn) begin
+                is_zero_a3 <= 1'b0;
+                is_zero_b3 <= 1'b0;
+                is_inf_a3 <= 1'b0;
+                is_inf_b3 <= 1'b0;
+                is_nan_a3 <= 1'b0;
+                is_nan_b3 <= 1'b0;
+                sign_a3 <= 1'b0;
+                sign_b3_adj <= 1'b0;
+            end else begin
+                is_zero_a3 <= is_zero_a2;
+                is_zero_b3 <= is_zero_b2;
+                is_inf_a3 <= is_inf_a2;
+                is_inf_b3 <= is_inf_b2;
+                is_nan_a3 <= is_nan_a2;
+                is_nan_b3 <= is_nan_b2;
+                sign_a3 <= sign_a2;
+                sign_b3_adj <= sign_b2_adj;
+            end
+        end
     always @(posedge clk or negedge rstn) begin
         if (!rstn) begin
             man_result3 <= 49'h0;
@@ -187,6 +247,8 @@ module fp32_adder_sub (
     assign exp_adjusted = (clz == 6'd0) ? (exp_result3 + 8'd1) : (exp_result3 - {{2{shift_amount[5]}},shift_amount[5:0]});
     
     // 根据 clz 值选择提取的尾数部分 [25:2] (24位)
+    // wire [23:0]manissa_temporary=(man_result3<<(shift_amount-1));
+    // assign mantissa_normalized =manissa_temporary;  // 左移 clz 位后，取最高的 24 位作为尾数
     assign mantissa_normalized =
         (clz == 6'd0)  ? man_result3[47:25] :   // right shift 1: take [47:25]
         (clz == 6'd1)  ? man_result3[46:24] :   // no shift: take [46:24]
@@ -218,29 +280,46 @@ module fp32_adder_sub (
     reg [31:0] result_r4;
     reg valid_r4;
     
-    always @(posedge clk or negedge rstn) begin
+always @(posedge clk or negedge rstn) begin
         if (!rstn) begin
             result_r4 <= 32'h0;
             valid_r4 <= 1'b0;
         end else begin
             valid_r4 <= valid_r3;
             
-            if (man_result3 == 49'h0 || clz > 6'd24) begin
-                // 结果为零或尾数太小无法规范化
-                result_r4 <= 32'h0;
-            end else if (exp_adjusted <= 8'd0) begin
-                // 指数下溢，结果为零（不处理subnormal数）
-                result_r4 <= 32'h0;
-            end else if (exp_adjusted >= 9'd255) begin
-                // 指数溢出，结果为无穷大
-                result_r4 <= {sign_result3, 8'hFF, 23'h0};
-            end else begin
-                // 正常输出：{符号位, 8位指数, 23位尾数}
-                result_r4 <= {sign_result3, exp_adjusted[7:0], mantissa_normalized[22:0]};
+            // 优先级 Check 1: NaN (最高优先级)
+            if(is_nan_a3 || is_nan_b3) begin
+                result_r4 <= 32'h7FC00000;
+            end 
+            // 优先级 Check 2: Inf (处理 Inf+Inf 和 Inf-Inf)
+            else if (is_inf_a3 || is_inf_b3) begin
+                if (is_inf_a3 && is_inf_b3) begin
+                    // 如果符号相同 -> Inf, 符号不同 -> NaN
+                    result_r4 <= (sign_a3 == sign_b3_adj) ? {sign_a3, 8'hFF, 23'h0} : 32'h7FC00000;
+                end else if (is_inf_a3) begin
+                    result_r4 <= {sign_a3, 8'hFF, 23'h0};
+                end else begin
+                    result_r4 <= {sign_b3_adj, 8'hFF, 23'h0};
+                end
+            end
+            // 优先级 Check 3: Zero (处理 0+0)
+            else if (is_zero_a3 && is_zero_b3) begin
+                result_r4 <= (op_r1) ? {sign_a3 & sign_b3_adj, 31'h0} : {sign_a3 | sign_b3_adj, 31'h0};
+            end 
+            // 优先级 Check 4: 正常数值计算 (包括计算结果下溢变成0的情况)
+            else begin
+                if (man_result3 == 49'h0 || clz > 6'd24) begin
+                    result_r4 <= 32'h0; // 结果确实为0 (例如 5.0 - 5.0)
+                end else if (exp_adjusted <= 8'd0) begin
+                    result_r4 <= 32'h0; // 下溢
+                end else if (exp_adjusted >= 9'd255) begin
+                    result_r4 <= {sign_result3, 8'hFF, 23'h0}; // 溢出变 Inf
+                end else begin
+                    result_r4 <= {sign_result3, exp_adjusted[7:0], mantissa_normalized[22:0]};
+                end
             end
         end
     end
-
     assign result = result_r4;
     assign valid_out = valid_r4;
 

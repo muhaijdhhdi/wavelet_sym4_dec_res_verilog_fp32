@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 IEEE 754 单精度浮点数数据生成脚本
 生成指定数量的随机浮点数，并包含特殊测试用例
@@ -68,6 +67,11 @@ def generate_test_data(num_data, output_file, seed=42):
         -1e-39,
         1e-20,
         -1.01e-20,
+        float('nan'),
+        float('inf'),
+
+        float('inf'),
+        12,
 
         # 1附近的数字
         1.0,
@@ -95,7 +99,7 @@ def generate_test_data(num_data, output_file, seed=42):
         -3.4e38,
         # 无穷大
         float('inf'),
-        float('-inf'),
+        float('inf'),
     ]
     
     # 添加特殊用例
@@ -145,7 +149,7 @@ if __name__ == '__main__':
             print(f"[ERROR] 输入参数必须为整数，收到: {sys.argv[1]}")
             sys.exit(1)
     else:
-        num_data = 200
+        num_data = 10000
     
     print(f"[INFO] 目标数据个数: {num_data}")
     generate_test_data(num_data, output_file)

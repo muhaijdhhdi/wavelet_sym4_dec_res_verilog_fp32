@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import struct
 import os
 import math

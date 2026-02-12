@@ -42,15 +42,6 @@ module tb_fp32_mult ();
         .result(result),
         .valid_out(valid_out)
     );
-    // float_mult_comb dut(
-    //     .clk(clk),
-    //     .rst_n(rstn),
-    //     .a(dina),
-    //     .b(dinb),
-    //     .valid_din(valid_din),
-    //     .result(result),
-    //     .valid_out(valid_out)
-    // );
     
     // 1. 时钟生成
     initial begin

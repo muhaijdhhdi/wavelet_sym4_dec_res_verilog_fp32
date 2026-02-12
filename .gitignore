@@ -11,3 +11,6 @@ xsim.dir/
 *.bin
 *.vcd
 *.v.out
+*.txt
+*.pyc
+*.pyo

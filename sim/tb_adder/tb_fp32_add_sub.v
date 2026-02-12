@@ -2,7 +2,7 @@
 
 `ifndef VIVADO_SIM
    // `include "../../scr/fp32_add_sub.v"
-   `include "../../scr/fp32_add_sub_comb.v"
+   `include "../../scr/fp32_add_sub.v"
 `endif 
 
 module tb_fp32_add_sub ();
@@ -33,18 +33,7 @@ module tb_fp32_add_sub ();
     integer loop_active;
     
     // 实例化被测模块 (Device Under Test)
-    // fp32_adder_sub dut (
-    //     .clk(clk),
-    //     .rstn(rstn),
-    //     .dina(dina),
-    //     .dinb(dinb),
-    //     .op(op),
-    //     .valid_in(valid_in),
-    //     .result(result),
-    //     .valid_out(valid_out)
-    // );
-
-    fp32_adder_sub_comb dut(
+    fp32_adder_sub dut (
         .clk(clk),
         .rstn(rstn),
         .dina(dina),
@@ -54,6 +43,17 @@ module tb_fp32_add_sub ();
         .result(result),
         .valid_out(valid_out)
     );
+
+    // fp32_adder_sub_comb dut(
+    //     .clk(clk),
+    //     .rstn(rstn),
+    //     .dina(dina),
+    //     .dinb(dinb),
+    //     .op(op),
+    //     .valid_in(valid_in),
+    //     .result(result),
+    //     .valid_out(valid_out)
+    // );
     
     // 1. 时钟生成
     initial begin

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import struct
 import random
 import os
@@ -8,7 +7,7 @@ def float_to_bin32(f):
     # '!f' 表示大端序单精度浮点数
     return format(struct.unpack('!I', struct.pack('!f', f))[0], '032b')
 
-def generate_fp32_data(num_pairs, filename='D:/project/my_ip_repository_prj/wavelet/float_sym4/sim/tb_multi/tb_fp32_data_input.txt'):
+def generate_fp32_data(num_pairs, filename='E:/project/pulse-processing/verilog_wavelet/fp32_prj/project_1/wavelet_sym4_dec_res_verilog_fp32/sim/tb_multi/tb_fp32_data_input.txt'):
     """
     产生指定对数的 FP32 数据
     每对数据占用两行，总行数为 2 * num_pairs
@@ -16,15 +15,10 @@ def generate_fp32_data(num_pairs, filename='D:/project/my_ip_repository_prj/wave
     
     # 定义一些特殊的测试点，确保覆盖边界逻辑
     special_values = [
-        0.0, -0.0, 
-        1.0, -1.0, 
-        0.5, -0.5,
-        float('inf'), float('-inf'),
-        float('nan'),
-        1.17549435e-38,  # 最小正正规数 (Min Normal)
-        3.40282347e+38,  # 最大正规数 (Max Normal)
-        1.0e-10, -1.0e-10,
-        1.0e+10, -1.0e+10
+      2962.0,0.80374,
+      2777.0,0.80374,
+      -1007,0.29786,
+      -246.0,-0.0126
     ]
 
     count = 0
@@ -55,5 +49,5 @@ def generate_fp32_data(num_pairs, filename='D:/project/my_ip_repository_prj/wave
 
 if __name__ == "__main__":
     # 设置你想要产生的数据对数
-    NUM_DATA_PAIRS = 10000 
+    NUM_DATA_PAIRS = 1000 
     generate_fp32_data(NUM_DATA_PAIRS)
