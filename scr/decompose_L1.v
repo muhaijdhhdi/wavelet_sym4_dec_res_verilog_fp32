@@ -143,77 +143,77 @@ end
 
 wire [31:0] product [0:7][0:7];
 
-fp32_mult fp32_mult_0_0 (clk_312_5,rstn,curr_din[0],    DEC_H0,mult_valid_in,product[0][0],mult_valid_out);
-fp32_mult fp32_mult_0_1 (clk_312_5,rstn,x_hist[0],      DEC_H1,mult_valid_in,product[0][1],              );
-fp32_mult fp32_mult_0_2 (clk_312_5,rstn,x_hist[1],      DEC_H2,mult_valid_in,product[0][2],              );
-fp32_mult fp32_mult_0_3 (clk_312_5,rstn,x_hist[2],      DEC_H3,mult_valid_in,product[0][3],              );
-fp32_mult fp32_mult_0_4 (clk_312_5,rstn,x_hist[3],      DEC_H4,mult_valid_in,product[0][4],              );
-fp32_mult fp32_mult_0_5 (clk_312_5,rstn,x_hist[4],      DEC_H5,mult_valid_in,product[0][5],              );
-fp32_mult fp32_mult_0_6 (clk_312_5,rstn,x_hist[5],      DEC_H6,mult_valid_in,product[0][6],              );
-fp32_mult fp32_mult_0_7 (clk_312_5,rstn,x_hist[6],      DEC_H7,mult_valid_in,product[0][7],              );
+fp32_mult fp32_mult_l1_dec_0_0 (clk_312_5,rstn,curr_din[0],    DEC_H0,mult_valid_in,product[0][0],mult_valid_out);
+fp32_mult fp32_mult_l1_dec_0_1 (clk_312_5,rstn,x_hist[0],      DEC_H1,mult_valid_in,product[0][1],              );
+fp32_mult fp32_mult_l1_dec_0_2 (clk_312_5,rstn,x_hist[1],      DEC_H2,mult_valid_in,product[0][2],              );
+fp32_mult fp32_mult_l1_dec_0_3 (clk_312_5,rstn,x_hist[2],      DEC_H3,mult_valid_in,product[0][3],              );
+fp32_mult fp32_mult_l1_dec_0_4 (clk_312_5,rstn,x_hist[3],      DEC_H4,mult_valid_in,product[0][4],              );
+fp32_mult fp32_mult_l1_dec_0_5 (clk_312_5,rstn,x_hist[4],      DEC_H5,mult_valid_in,product[0][5],              );
+fp32_mult fp32_mult_l1_dec_0_6 (clk_312_5,rstn,x_hist[5],      DEC_H6,mult_valid_in,product[0][6],              );
+fp32_mult fp32_mult_l1_dec_0_7 (clk_312_5,rstn,x_hist[6],      DEC_H7,mult_valid_in,product[0][7],              );
 
-fp32_mult fp32_mult_1_0 (clk_312_5,rstn,curr_din[2],    DEC_H0,mult_valid_in,product[1][0],              );                       
-fp32_mult fp32_mult_1_1 (clk_312_5,rstn,curr_din[1],    DEC_H1,mult_valid_in,product[1][1],              );                            
-fp32_mult fp32_mult_1_2 (clk_312_5,rstn,curr_din[0],    DEC_H2,mult_valid_in,product[1][2],              );                          
-fp32_mult fp32_mult_1_3 (clk_312_5,rstn,x_hist[0],      DEC_H3,mult_valid_in,product[1][3],              );                        
-fp32_mult fp32_mult_1_4 (clk_312_5,rstn,x_hist[1],      DEC_H4,mult_valid_in,product[1][4],              );                               
-fp32_mult fp32_mult_1_5 (clk_312_5,rstn,x_hist[2],      DEC_H5,mult_valid_in,product[1][5],              );                          
-fp32_mult fp32_mult_1_6 (clk_312_5,rstn,x_hist[3],      DEC_H6,mult_valid_in,product[1][6],              );                             
-fp32_mult fp32_mult_1_7 (clk_312_5,rstn,x_hist[4],      DEC_H7,mult_valid_in,product[1][7],              );
+fp32_mult fp32_mult_l1_dec_1_0 (clk_312_5,rstn,curr_din[2],    DEC_H0,mult_valid_in,product[1][0],              );                       
+fp32_mult fp32_mult_l1_dec_1_1 (clk_312_5,rstn,curr_din[1],    DEC_H1,mult_valid_in,product[1][1],              );                            
+fp32_mult fp32_mult_l1_dec_1_2 (clk_312_5,rstn,curr_din[0],    DEC_H2,mult_valid_in,product[1][2],              );                          
+fp32_mult fp32_mult_l1_dec_1_3 (clk_312_5,rstn,x_hist[0],      DEC_H3,mult_valid_in,product[1][3],              );                        
+fp32_mult fp32_mult_l1_dec_1_4 (clk_312_5,rstn,x_hist[1],      DEC_H4,mult_valid_in,product[1][4],              );                               
+fp32_mult fp32_mult_l1_dec_1_5 (clk_312_5,rstn,x_hist[2],      DEC_H5,mult_valid_in,product[1][5],              );                          
+fp32_mult fp32_mult_l1_dec_1_6 (clk_312_5,rstn,x_hist[3],      DEC_H6,mult_valid_in,product[1][6],              );                             
+fp32_mult fp32_mult_l1_dec_1_7 (clk_312_5,rstn,x_hist[4],      DEC_H7,mult_valid_in,product[1][7],              );
 
-fp32_mult fp32_mult_2_0 (clk_312_5,rstn,curr_din[4],    DEC_H0,mult_valid_in,product[2][0],              );
-fp32_mult fp32_mult_2_1 (clk_312_5,rstn,curr_din[3],    DEC_H1,mult_valid_in,product[2][1],              );
-fp32_mult fp32_mult_2_2 (clk_312_5,rstn,curr_din[2],    DEC_H2,mult_valid_in,product[2][2],              );
-fp32_mult fp32_mult_2_3 (clk_312_5,rstn,curr_din[1],    DEC_H3,mult_valid_in,product[2][3],              );
-fp32_mult fp32_mult_2_4 (clk_312_5,rstn,curr_din[0],    DEC_H4,mult_valid_in,product[2][4],              );
-fp32_mult fp32_mult_2_5 (clk_312_5,rstn,x_hist[0],      DEC_H5,mult_valid_in,product[2][5],              );
-fp32_mult fp32_mult_2_6 (clk_312_5,rstn,x_hist[1],      DEC_H6,mult_valid_in,product[2][6],              );
-fp32_mult fp32_mult_2_7 (clk_312_5,rstn,x_hist[2],      DEC_H7,mult_valid_in,product[2][7],              );
+fp32_mult fp32_mult_l1_dec_2_0 (clk_312_5,rstn,curr_din[4],    DEC_H0,mult_valid_in,product[2][0],              );
+fp32_mult fp32_mult_l1_dec_2_1 (clk_312_5,rstn,curr_din[3],    DEC_H1,mult_valid_in,product[2][1],              );
+fp32_mult fp32_mult_l1_dec_2_2 (clk_312_5,rstn,curr_din[2],    DEC_H2,mult_valid_in,product[2][2],              );
+fp32_mult fp32_mult_l1_dec_2_3 (clk_312_5,rstn,curr_din[1],    DEC_H3,mult_valid_in,product[2][3],              );
+fp32_mult fp32_mult_l1_dec_2_4 (clk_312_5,rstn,curr_din[0],    DEC_H4,mult_valid_in,product[2][4],              );
+fp32_mult fp32_mult_l1_dec_2_5 (clk_312_5,rstn,x_hist[0],      DEC_H5,mult_valid_in,product[2][5],              );
+fp32_mult fp32_mult_l1_dec_2_6 (clk_312_5,rstn,x_hist[1],      DEC_H6,mult_valid_in,product[2][6],              );
+fp32_mult fp32_mult_l1_dec_2_7 (clk_312_5,rstn,x_hist[2],      DEC_H7,mult_valid_in,product[2][7],              );
 
-fp32_mult fp32_mult_3_0 (clk_312_5,rstn,curr_din[6],    DEC_H0,mult_valid_in,product[3][0],              );                                                                                                        
-fp32_mult fp32_mult_3_1 (clk_312_5,rstn,curr_din[5],    DEC_H1,mult_valid_in,product[3][1],              );                                                                                                        
-fp32_mult fp32_mult_3_2 (clk_312_5,rstn,curr_din[4],    DEC_H2,mult_valid_in,product[3][2],              );                                                                                                        
-fp32_mult fp32_mult_3_3 (clk_312_5,rstn,curr_din[3],    DEC_H3,mult_valid_in,product[3][3],              );                                                                                                        
-fp32_mult fp32_mult_3_4 (clk_312_5,rstn,curr_din[2],    DEC_H4,mult_valid_in,product[3][4],              );                                                                                                        
-fp32_mult fp32_mult_3_5 (clk_312_5,rstn,curr_din[1],    DEC_H5,mult_valid_in,product[3][5],              );                                                                                                        
-fp32_mult fp32_mult_3_6 (clk_312_5,rstn,curr_din[0],    DEC_H6,mult_valid_in,product[3][6],              );                                                                                                        
-fp32_mult fp32_mult_3_7 (clk_312_5,rstn,x_hist[0],      DEC_H7,mult_valid_in,product[3][7],              );
+fp32_mult fp32_mult_l1_dec_3_0 (clk_312_5,rstn,curr_din[6],    DEC_H0,mult_valid_in,product[3][0],              );                                                                                                        
+fp32_mult fp32_mult_l1_dec_3_1 (clk_312_5,rstn,curr_din[5],    DEC_H1,mult_valid_in,product[3][1],              );                                                                                                        
+fp32_mult fp32_mult_l1_dec_3_2 (clk_312_5,rstn,curr_din[4],    DEC_H2,mult_valid_in,product[3][2],              );                                                                                                        
+fp32_mult fp32_mult_l1_dec_3_3 (clk_312_5,rstn,curr_din[3],    DEC_H3,mult_valid_in,product[3][3],              );                                                                                                        
+fp32_mult fp32_mult_l1_dec_3_4 (clk_312_5,rstn,curr_din[2],    DEC_H4,mult_valid_in,product[3][4],              );                                                                                                        
+fp32_mult fp32_mult_l1_dec_3_5 (clk_312_5,rstn,curr_din[1],    DEC_H5,mult_valid_in,product[3][5],              );                                                                                                        
+fp32_mult fp32_mult_l1_dec_3_6 (clk_312_5,rstn,curr_din[0],    DEC_H6,mult_valid_in,product[3][6],              );                                                                                                        
+fp32_mult fp32_mult_l1_dec_3_7 (clk_312_5,rstn,x_hist[0],      DEC_H7,mult_valid_in,product[3][7],              );
 
-fp32_mult fp32_mult_4_0 (clk_312_5,rstn,curr_din[8],    DEC_H0,mult_valid_in,product[4][0],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_4_1 (clk_312_5,rstn,curr_din[7],    DEC_H1,mult_valid_in,product[4][1],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_4_2 (clk_312_5,rstn,curr_din[6],    DEC_H2,mult_valid_in,product[4][2],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_4_3 (clk_312_5,rstn,curr_din[5],    DEC_H3,mult_valid_in,product[4][3],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_4_4 (clk_312_5,rstn,curr_din[4],    DEC_H4,mult_valid_in,product[4][4],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_4_5 (clk_312_5,rstn,curr_din[3],    DEC_H5,mult_valid_in,product[4][5],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_4_6 (clk_312_5,rstn,curr_din[2],    DEC_H6,mult_valid_in,product[4][6],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_4_7 (clk_312_5,rstn,curr_din[1],    DEC_H7,mult_valid_in,product[4][7],              );   
+fp32_mult fp32_mult_l1_dec_4_0 (clk_312_5,rstn,curr_din[8],    DEC_H0,mult_valid_in,product[4][0],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_4_1 (clk_312_5,rstn,curr_din[7],    DEC_H1,mult_valid_in,product[4][1],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_4_2 (clk_312_5,rstn,curr_din[6],    DEC_H2,mult_valid_in,product[4][2],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_4_3 (clk_312_5,rstn,curr_din[5],    DEC_H3,mult_valid_in,product[4][3],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_4_4 (clk_312_5,rstn,curr_din[4],    DEC_H4,mult_valid_in,product[4][4],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_4_5 (clk_312_5,rstn,curr_din[3],    DEC_H5,mult_valid_in,product[4][5],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_4_6 (clk_312_5,rstn,curr_din[2],    DEC_H6,mult_valid_in,product[4][6],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_4_7 (clk_312_5,rstn,curr_din[1],    DEC_H7,mult_valid_in,product[4][7],              );   
 
-fp32_mult fp32_mult_5_0 (clk_312_5,rstn,curr_din[10],   DEC_H0,mult_valid_in,product[5][0],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_5_1 (clk_312_5,rstn,curr_din[9],    DEC_H1,mult_valid_in,product[5][1],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_5_2 (clk_312_5,rstn,curr_din[8],    DEC_H2,mult_valid_in,product[5][2],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_5_3 (clk_312_5,rstn,curr_din[7],    DEC_H3,mult_valid_in,product[5][3],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_5_4 (clk_312_5,rstn,curr_din[6],    DEC_H4,mult_valid_in,product[5][4],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_5_5 (clk_312_5,rstn,curr_din[5],    DEC_H5,mult_valid_in,product[5][5],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_5_6 (clk_312_5,rstn,curr_din[4],    DEC_H6,mult_valid_in,product[5][6],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_5_7 (clk_312_5,rstn,curr_din[3],    DEC_H7,mult_valid_in,product[5][7],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_5_0 (clk_312_5,rstn,curr_din[10],   DEC_H0,mult_valid_in,product[5][0],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_5_1 (clk_312_5,rstn,curr_din[9],    DEC_H1,mult_valid_in,product[5][1],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_5_2 (clk_312_5,rstn,curr_din[8],    DEC_H2,mult_valid_in,product[5][2],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_5_3 (clk_312_5,rstn,curr_din[7],    DEC_H3,mult_valid_in,product[5][3],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_5_4 (clk_312_5,rstn,curr_din[6],    DEC_H4,mult_valid_in,product[5][4],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_5_5 (clk_312_5,rstn,curr_din[5],    DEC_H5,mult_valid_in,product[5][5],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_5_6 (clk_312_5,rstn,curr_din[4],    DEC_H6,mult_valid_in,product[5][6],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_5_7 (clk_312_5,rstn,curr_din[3],    DEC_H7,mult_valid_in,product[5][7],              );                                                                                                                                                                                                                 
 
-fp32_mult fp32_mult_6_0 (clk_312_5,rstn,curr_din[12],   DEC_H0,mult_valid_in,product[6][0],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_6_1 (clk_312_5,rstn,curr_din[11],   DEC_H1,mult_valid_in,product[6][1],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_6_2 (clk_312_5,rstn,curr_din[10],   DEC_H2,mult_valid_in,product[6][2],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_6_3 (clk_312_5,rstn,curr_din[9],    DEC_H3,mult_valid_in,product[6][3],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_6_4 (clk_312_5,rstn,curr_din[8],    DEC_H4,mult_valid_in,product[6][4],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_6_5 (clk_312_5,rstn,curr_din[7],    DEC_H5,mult_valid_in,product[6][5],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_6_6 (clk_312_5,rstn,curr_din[6],    DEC_H6,mult_valid_in,product[6][6],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_6_7 (clk_312_5,rstn,curr_din[5],    DEC_H7,mult_valid_in,product[6][7],              );       
+fp32_mult fp32_mult_l1_dec_6_0 (clk_312_5,rstn,curr_din[12],   DEC_H0,mult_valid_in,product[6][0],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_6_1 (clk_312_5,rstn,curr_din[11],   DEC_H1,mult_valid_in,product[6][1],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_6_2 (clk_312_5,rstn,curr_din[10],   DEC_H2,mult_valid_in,product[6][2],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_6_3 (clk_312_5,rstn,curr_din[9],    DEC_H3,mult_valid_in,product[6][3],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_6_4 (clk_312_5,rstn,curr_din[8],    DEC_H4,mult_valid_in,product[6][4],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_6_5 (clk_312_5,rstn,curr_din[7],    DEC_H5,mult_valid_in,product[6][5],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_6_6 (clk_312_5,rstn,curr_din[6],    DEC_H6,mult_valid_in,product[6][6],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_6_7 (clk_312_5,rstn,curr_din[5],    DEC_H7,mult_valid_in,product[6][7],              );       
 
-fp32_mult fp32_mult_7_0 (clk_312_5,rstn,curr_din[14],   DEC_H0,mult_valid_in,product[7][0],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_7_1 (clk_312_5,rstn,curr_din[13],   DEC_H1,mult_valid_in,product[7][1],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_7_2 (clk_312_5,rstn,curr_din[12],   DEC_H2,mult_valid_in,product[7][2],              );                                                                                                                                                                                                                 
-fp32_mult fp32_mult_7_3 (clk_312_5,rstn,curr_din[11],   DEC_H3,mult_valid_in,product[7][3],              );                                                                                                       
-fp32_mult fp32_mult_7_4 (clk_312_5,rstn,curr_din[10],   DEC_H4,mult_valid_in,product[7][4],              );                                                                                                       
-fp32_mult fp32_mult_7_5 (clk_312_5,rstn,curr_din[9],    DEC_H5,mult_valid_in,product[7][5],              );                                                                                                       
-fp32_mult fp32_mult_7_6 (clk_312_5,rstn,curr_din[8],    DEC_H6,mult_valid_in,product[7][6],              );                                                                                                       
-fp32_mult fp32_mult_7_7 (clk_312_5,rstn,curr_din[7],    DEC_H7,mult_valid_in,product[7][7],              );  
+fp32_mult fp32_mult_l1_dec_7_0 (clk_312_5,rstn,curr_din[14],   DEC_H0,mult_valid_in,product[7][0],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_7_1 (clk_312_5,rstn,curr_din[13],   DEC_H1,mult_valid_in,product[7][1],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_7_2 (clk_312_5,rstn,curr_din[12],   DEC_H2,mult_valid_in,product[7][2],              );                                                                                                                                                                                                                 
+fp32_mult fp32_mult_l1_dec_7_3 (clk_312_5,rstn,curr_din[11],   DEC_H3,mult_valid_in,product[7][3],              );                                                                                                       
+fp32_mult fp32_mult_l1_dec_7_4 (clk_312_5,rstn,curr_din[10],   DEC_H4,mult_valid_in,product[7][4],              );                                                                                                       
+fp32_mult fp32_mult_l1_dec_7_5 (clk_312_5,rstn,curr_din[9],    DEC_H5,mult_valid_in,product[7][5],              );                                                                                                       
+fp32_mult fp32_mult_l1_dec_7_6 (clk_312_5,rstn,curr_din[8],    DEC_H6,mult_valid_in,product[7][6],              );                                                                                                       
+fp32_mult fp32_mult_l1_dec_7_7 (clk_312_5,rstn,curr_din[7],    DEC_H7,mult_valid_in,product[7][7],              );  
 
 `ifdef DEBUG_DECOMPOSE_L1
     integer file_mult;
@@ -259,41 +259,41 @@ wire  add_valid_out_0;
 //adder_0 product[0-1][2-3][4-5][6-7][0:7]
 wire [31:0] sum0[0:7][0:3];
 
-fp32_adder_sub fp32_adder_sub_0_0_0(clk_312_5,rstn,product_d1[0][0],product_d1[0][1],1'b0,add_valid_in_0,sum0[0][0],add_valid_out_0);
-fp32_adder_sub fp32_adder_sub_0_1_0(clk_312_5,rstn,product_d1[1][0],product_d1[1][1],1'b0,add_valid_in_0,sum0[1][0],               );
-fp32_adder_sub fp32_adder_sub_0_2_0(clk_312_5,rstn,product_d1[2][0],product_d1[2][1],1'b0,add_valid_in_0,sum0[2][0],               );
-fp32_adder_sub fp32_adder_sub_0_3_0(clk_312_5,rstn,product_d1[3][0],product_d1[3][1],1'b0,add_valid_in_0,sum0[3][0],               );
-fp32_adder_sub fp32_adder_sub_0_4_0(clk_312_5,rstn,product_d1[4][0],product_d1[4][1],1'b0,add_valid_in_0,sum0[4][0],               );
-fp32_adder_sub fp32_adder_sub_0_5_0(clk_312_5,rstn,product_d1[5][0],product_d1[5][1],1'b0,add_valid_in_0,sum0[5][0],               );
-fp32_adder_sub fp32_adder_sub_0_6_0(clk_312_5,rstn,product_d1[6][0],product_d1[6][1],1'b0,add_valid_in_0,sum0[6][0],               );
-fp32_adder_sub fp32_adder_sub_0_7_0(clk_312_5,rstn,product_d1[7][0],product_d1[7][1],1'b0,add_valid_in_0,sum0[7][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_0_0(clk_312_5,rstn,product_d1[0][0],product_d1[0][1],1'b0,add_valid_in_0,sum0[0][0],add_valid_out_0);
+fp32_adder_sub fp32_adder_sub_l1_dec_0_1_0(clk_312_5,rstn,product_d1[1][0],product_d1[1][1],1'b0,add_valid_in_0,sum0[1][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_2_0(clk_312_5,rstn,product_d1[2][0],product_d1[2][1],1'b0,add_valid_in_0,sum0[2][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_3_0(clk_312_5,rstn,product_d1[3][0],product_d1[3][1],1'b0,add_valid_in_0,sum0[3][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_4_0(clk_312_5,rstn,product_d1[4][0],product_d1[4][1],1'b0,add_valid_in_0,sum0[4][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_5_0(clk_312_5,rstn,product_d1[5][0],product_d1[5][1],1'b0,add_valid_in_0,sum0[5][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_6_0(clk_312_5,rstn,product_d1[6][0],product_d1[6][1],1'b0,add_valid_in_0,sum0[6][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_7_0(clk_312_5,rstn,product_d1[7][0],product_d1[7][1],1'b0,add_valid_in_0,sum0[7][0],               );
 
-fp32_adder_sub fp32_adder_sub_0_0_1(clk_312_5,rstn,product_d1[0][2],product_d1[0][3],1'b0,add_valid_in_0,sum0[0][1],               );
-fp32_adder_sub fp32_adder_sub_0_1_1(clk_312_5,rstn,product_d1[1][2],product_d1[1][3],1'b0,add_valid_in_0,sum0[1][1],               );
-fp32_adder_sub fp32_adder_sub_0_2_1(clk_312_5,rstn,product_d1[2][2],product_d1[2][3],1'b0,add_valid_in_0,sum0[2][1],               );
-fp32_adder_sub fp32_adder_sub_0_3_1(clk_312_5,rstn,product_d1[3][2],product_d1[3][3],1'b0,add_valid_in_0,sum0[3][1],               );
-fp32_adder_sub fp32_adder_sub_0_4_1(clk_312_5,rstn,product_d1[4][2],product_d1[4][3],1'b0,add_valid_in_0,sum0[4][1],               );
-fp32_adder_sub fp32_adder_sub_0_5_1(clk_312_5,rstn,product_d1[5][2],product_d1[5][3],1'b0,add_valid_in_0,sum0[5][1],               );
-fp32_adder_sub fp32_adder_sub_0_6_1(clk_312_5,rstn,product_d1[6][2],product_d1[6][3],1'b0,add_valid_in_0,sum0[6][1],               );
-fp32_adder_sub fp32_adder_sub_0_7_1(clk_312_5,rstn,product_d1[7][2],product_d1[7][3],1'b0,add_valid_in_0,sum0[7][1],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_0_1(clk_312_5,rstn,product_d1[0][2],product_d1[0][3],1'b0,add_valid_in_0,sum0[0][1],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_1_1(clk_312_5,rstn,product_d1[1][2],product_d1[1][3],1'b0,add_valid_in_0,sum0[1][1],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_2_1(clk_312_5,rstn,product_d1[2][2],product_d1[2][3],1'b0,add_valid_in_0,sum0[2][1],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_3_1(clk_312_5,rstn,product_d1[3][2],product_d1[3][3],1'b0,add_valid_in_0,sum0[3][1],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_4_1(clk_312_5,rstn,product_d1[4][2],product_d1[4][3],1'b0,add_valid_in_0,sum0[4][1],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_5_1(clk_312_5,rstn,product_d1[5][2],product_d1[5][3],1'b0,add_valid_in_0,sum0[5][1],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_6_1(clk_312_5,rstn,product_d1[6][2],product_d1[6][3],1'b0,add_valid_in_0,sum0[6][1],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_7_1(clk_312_5,rstn,product_d1[7][2],product_d1[7][3],1'b0,add_valid_in_0,sum0[7][1],               );
 
-fp32_adder_sub fp32_adder_sub_0_0_2(clk_312_5,rstn,product_d1[0][4],product_d1[0][5],1'b0,add_valid_in_0,sum0[0][2],               );
-fp32_adder_sub fp32_adder_sub_0_1_2(clk_312_5,rstn,product_d1[1][4],product_d1[1][5],1'b0,add_valid_in_0,sum0[1][2],               );
-fp32_adder_sub fp32_adder_sub_0_2_2(clk_312_5,rstn,product_d1[2][4],product_d1[2][5],1'b0,add_valid_in_0,sum0[2][2],               );
-fp32_adder_sub fp32_adder_sub_0_3_2(clk_312_5,rstn,product_d1[3][4],product_d1[3][5],1'b0,add_valid_in_0,sum0[3][2],               );
-fp32_adder_sub fp32_adder_sub_0_4_2(clk_312_5,rstn,product_d1[4][4],product_d1[4][5],1'b0,add_valid_in_0,sum0[4][2],               );
-fp32_adder_sub fp32_adder_sub_0_5_2(clk_312_5,rstn,product_d1[5][4],product_d1[5][5],1'b0,add_valid_in_0,sum0[5][2],               );
-fp32_adder_sub fp32_adder_sub_0_6_2(clk_312_5,rstn,product_d1[6][4],product_d1[6][5],1'b0,add_valid_in_0,sum0[6][2],               );
-fp32_adder_sub fp32_adder_sub_0_7_2(clk_312_5,rstn,product_d1[7][4],product_d1[7][5],1'b0,add_valid_in_0,sum0[7][2],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_0_2(clk_312_5,rstn,product_d1[0][4],product_d1[0][5],1'b0,add_valid_in_0,sum0[0][2],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_1_2(clk_312_5,rstn,product_d1[1][4],product_d1[1][5],1'b0,add_valid_in_0,sum0[1][2],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_2_2(clk_312_5,rstn,product_d1[2][4],product_d1[2][5],1'b0,add_valid_in_0,sum0[2][2],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_3_2(clk_312_5,rstn,product_d1[3][4],product_d1[3][5],1'b0,add_valid_in_0,sum0[3][2],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_4_2(clk_312_5,rstn,product_d1[4][4],product_d1[4][5],1'b0,add_valid_in_0,sum0[4][2],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_5_2(clk_312_5,rstn,product_d1[5][4],product_d1[5][5],1'b0,add_valid_in_0,sum0[5][2],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_6_2(clk_312_5,rstn,product_d1[6][4],product_d1[6][5],1'b0,add_valid_in_0,sum0[6][2],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_7_2(clk_312_5,rstn,product_d1[7][4],product_d1[7][5],1'b0,add_valid_in_0,sum0[7][2],               );
 
-fp32_adder_sub fp32_adder_sub_0_0_3(clk_312_5,rstn,product_d1[0][6],product_d1[0][7],1'b0,add_valid_in_0,sum0[0][3],               );
-fp32_adder_sub fp32_adder_sub_0_1_3(clk_312_5,rstn,product_d1[1][6],product_d1[1][7],1'b0,add_valid_in_0,sum0[1][3],               );
-fp32_adder_sub fp32_adder_sub_0_2_3(clk_312_5,rstn,product_d1[2][6],product_d1[2][7],1'b0,add_valid_in_0,sum0[2][3],               );
-fp32_adder_sub fp32_adder_sub_0_3_3(clk_312_5,rstn,product_d1[3][6],product_d1[3][7],1'b0,add_valid_in_0,sum0[3][3],               );
-fp32_adder_sub fp32_adder_sub_0_4_3(clk_312_5,rstn,product_d1[4][6],product_d1[4][7],1'b0,add_valid_in_0,sum0[4][3],               );
-fp32_adder_sub fp32_adder_sub_0_5_3(clk_312_5,rstn,product_d1[5][6],product_d1[5][7],1'b0,add_valid_in_0,sum0[5][3],               );
-fp32_adder_sub fp32_adder_sub_0_6_3(clk_312_5,rstn,product_d1[6][6],product_d1[6][7],1'b0,add_valid_in_0,sum0[6][3],               );
-fp32_adder_sub fp32_adder_sub_0_7_3(clk_312_5,rstn,product_d1[7][6],product_d1[7][7],1'b0,add_valid_in_0,sum0[7][3],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_0_3(clk_312_5,rstn,product_d1[0][6],product_d1[0][7],1'b0,add_valid_in_0,sum0[0][3],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_1_3(clk_312_5,rstn,product_d1[1][6],product_d1[1][7],1'b0,add_valid_in_0,sum0[1][3],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_2_3(clk_312_5,rstn,product_d1[2][6],product_d1[2][7],1'b0,add_valid_in_0,sum0[2][3],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_3_3(clk_312_5,rstn,product_d1[3][6],product_d1[3][7],1'b0,add_valid_in_0,sum0[3][3],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_4_3(clk_312_5,rstn,product_d1[4][6],product_d1[4][7],1'b0,add_valid_in_0,sum0[4][3],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_5_3(clk_312_5,rstn,product_d1[5][6],product_d1[5][7],1'b0,add_valid_in_0,sum0[5][3],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_6_3(clk_312_5,rstn,product_d1[6][6],product_d1[6][7],1'b0,add_valid_in_0,sum0[6][3],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_0_7_3(clk_312_5,rstn,product_d1[7][6],product_d1[7][7],1'b0,add_valid_in_0,sum0[7][3],               );
 
 reg add_valid_out_0_d1;
 reg [31:0]sum0_d1[0:7][0:3];
@@ -312,23 +312,23 @@ wire add_valid_out_1;
 
 wire [31:0] sum1[0:7][0:1];//0-1是只有两个结�?
 
-fp32_adder_sub fp32_adder_sub_1_0_0(clk_312_5,rstn,sum0_d1[0][0],sum0_d1[0][1],1'b0,add_valid_in_1,sum1[0][0],add_valid_out_1);
-fp32_adder_sub fp32_adder_sub_1_1_0(clk_312_5,rstn,sum0_d1[1][0],sum0_d1[1][1],1'b0,add_valid_in_1,sum1[1][0],               );
-fp32_adder_sub fp32_adder_sub_1_2_0(clk_312_5,rstn,sum0_d1[2][0],sum0_d1[2][1],1'b0,add_valid_in_1,sum1[2][0],               );
-fp32_adder_sub fp32_adder_sub_1_3_0(clk_312_5,rstn,sum0_d1[3][0],sum0_d1[3][1],1'b0,add_valid_in_1,sum1[3][0],               );
-fp32_adder_sub fp32_adder_sub_1_4_0(clk_312_5,rstn,sum0_d1[4][0],sum0_d1[4][1],1'b0,add_valid_in_1,sum1[4][0],               );
-fp32_adder_sub fp32_adder_sub_1_5_0(clk_312_5,rstn,sum0_d1[5][0],sum0_d1[5][1],1'b0,add_valid_in_1,sum1[5][0],               );
-fp32_adder_sub fp32_adder_sub_1_6_0(clk_312_5,rstn,sum0_d1[6][0],sum0_d1[6][1],1'b0,add_valid_in_1,sum1[6][0],               );
-fp32_adder_sub fp32_adder_sub_1_7_0(clk_312_5,rstn,sum0_d1[7][0],sum0_d1[7][1],1'b0,add_valid_in_1,sum1[7][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_1_0_0(clk_312_5,rstn,sum0_d1[0][0],sum0_d1[0][1],1'b0,add_valid_in_1,sum1[0][0],add_valid_out_1);
+fp32_adder_sub fp32_adder_sub_l1_dec_1_1_0(clk_312_5,rstn,sum0_d1[1][0],sum0_d1[1][1],1'b0,add_valid_in_1,sum1[1][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_1_2_0(clk_312_5,rstn,sum0_d1[2][0],sum0_d1[2][1],1'b0,add_valid_in_1,sum1[2][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_1_3_0(clk_312_5,rstn,sum0_d1[3][0],sum0_d1[3][1],1'b0,add_valid_in_1,sum1[3][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_1_4_0(clk_312_5,rstn,sum0_d1[4][0],sum0_d1[4][1],1'b0,add_valid_in_1,sum1[4][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_1_5_0(clk_312_5,rstn,sum0_d1[5][0],sum0_d1[5][1],1'b0,add_valid_in_1,sum1[5][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_1_6_0(clk_312_5,rstn,sum0_d1[6][0],sum0_d1[6][1],1'b0,add_valid_in_1,sum1[6][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_1_7_0(clk_312_5,rstn,sum0_d1[7][0],sum0_d1[7][1],1'b0,add_valid_in_1,sum1[7][0],               );
 
-fp32_adder_sub fp32_adder_sub_1_0_1(clk_312_5,rstn,sum0_d1[0][2],sum0_d1[0][3],1'b0,add_valid_in_1,sum1[0][1],               );
-fp32_adder_sub fp32_adder_sub_1_1_1(clk_312_5,rstn,sum0_d1[1][2],sum0_d1[1][3],1'b0,add_valid_in_1,sum1[1][1],               );
-fp32_adder_sub fp32_adder_sub_1_2_1(clk_312_5,rstn,sum0_d1[2][2],sum0_d1[2][3],1'b0,add_valid_in_1,sum1[2][1],               );
-fp32_adder_sub fp32_adder_sub_1_3_1(clk_312_5,rstn,sum0_d1[3][2],sum0_d1[3][3],1'b0,add_valid_in_1,sum1[3][1],               );
-fp32_adder_sub fp32_adder_sub_1_4_1(clk_312_5,rstn,sum0_d1[4][2],sum0_d1[4][3],1'b0,add_valid_in_1,sum1[4][1],               );
-fp32_adder_sub fp32_adder_sub_1_5_1(clk_312_5,rstn,sum0_d1[5][2],sum0_d1[5][3],1'b0,add_valid_in_1,sum1[5][1],               );
-fp32_adder_sub fp32_adder_sub_1_6_1(clk_312_5,rstn,sum0_d1[6][2],sum0_d1[6][3],1'b0,add_valid_in_1,sum1[6][1],               );
-fp32_adder_sub fp32_adder_sub_1_7_1(clk_312_5,rstn,sum0_d1[7][2],sum0_d1[7][3],1'b0,add_valid_in_1,sum1[7][1],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_1_0_1(clk_312_5,rstn,sum0_d1[0][2],sum0_d1[0][3],1'b0,add_valid_in_1,sum1[0][1],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_1_1_1(clk_312_5,rstn,sum0_d1[1][2],sum0_d1[1][3],1'b0,add_valid_in_1,sum1[1][1],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_1_2_1(clk_312_5,rstn,sum0_d1[2][2],sum0_d1[2][3],1'b0,add_valid_in_1,sum1[2][1],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_1_3_1(clk_312_5,rstn,sum0_d1[3][2],sum0_d1[3][3],1'b0,add_valid_in_1,sum1[3][1],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_1_4_1(clk_312_5,rstn,sum0_d1[4][2],sum0_d1[4][3],1'b0,add_valid_in_1,sum1[4][1],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_1_5_1(clk_312_5,rstn,sum0_d1[5][2],sum0_d1[5][3],1'b0,add_valid_in_1,sum1[5][1],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_1_6_1(clk_312_5,rstn,sum0_d1[6][2],sum0_d1[6][3],1'b0,add_valid_in_1,sum1[6][1],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_1_7_1(clk_312_5,rstn,sum0_d1[7][2],sum0_d1[7][3],1'b0,add_valid_in_1,sum1[7][1],               );
 
 reg add_valid_out_1_d1;
 reg [31:0]sum1_d1[0:7][0:1];
@@ -349,14 +349,14 @@ wire add_valid_out_2;
 
 wire [31:0] sum2[0:7][0:0];//0是只有两个结�?
 
-fp32_adder_sub fp32_adder_sub_2_0_0(clk_312_5,rstn,sum1_d1[0][0],sum1_d1[0][1],1'b0,add_valid_in_2,sum2[0][0],add_valid_out_2);
-fp32_adder_sub fp32_adder_sub_2_1_0(clk_312_5,rstn,sum1_d1[1][0],sum1_d1[1][1],1'b0,add_valid_in_2,sum2[1][0],               );
-fp32_adder_sub fp32_adder_sub_2_2_0(clk_312_5,rstn,sum1_d1[2][0],sum1_d1[2][1],1'b0,add_valid_in_2,sum2[2][0],               );
-fp32_adder_sub fp32_adder_sub_2_3_0(clk_312_5,rstn,sum1_d1[3][0],sum1_d1[3][1],1'b0,add_valid_in_2,sum2[3][0],               );
-fp32_adder_sub fp32_adder_sub_2_4_0(clk_312_5,rstn,sum1_d1[4][0],sum1_d1[4][1],1'b0,add_valid_in_2,sum2[4][0],               );
-fp32_adder_sub fp32_adder_sub_2_5_0(clk_312_5,rstn,sum1_d1[5][0],sum1_d1[5][1],1'b0,add_valid_in_2,sum2[5][0],               );
-fp32_adder_sub fp32_adder_sub_2_6_0(clk_312_5,rstn,sum1_d1[6][0],sum1_d1[6][1],1'b0,add_valid_in_2,sum2[6][0],               );
-fp32_adder_sub fp32_adder_sub_2_7_0(clk_312_5,rstn,sum1_d1[7][0],sum1_d1[7][1],1'b0,add_valid_in_2,sum2[7][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_2_0_0(clk_312_5,rstn,sum1_d1[0][0],sum1_d1[0][1],1'b0,add_valid_in_2,sum2[0][0],add_valid_out_2);
+fp32_adder_sub fp32_adder_sub_l1_dec_2_1_0(clk_312_5,rstn,sum1_d1[1][0],sum1_d1[1][1],1'b0,add_valid_in_2,sum2[1][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_2_2_0(clk_312_5,rstn,sum1_d1[2][0],sum1_d1[2][1],1'b0,add_valid_in_2,sum2[2][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_2_3_0(clk_312_5,rstn,sum1_d1[3][0],sum1_d1[3][1],1'b0,add_valid_in_2,sum2[3][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_2_4_0(clk_312_5,rstn,sum1_d1[4][0],sum1_d1[4][1],1'b0,add_valid_in_2,sum2[4][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_2_5_0(clk_312_5,rstn,sum1_d1[5][0],sum1_d1[5][1],1'b0,add_valid_in_2,sum2[5][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_2_6_0(clk_312_5,rstn,sum1_d1[6][0],sum1_d1[6][1],1'b0,add_valid_in_2,sum2[6][0],               );
+fp32_adder_sub fp32_adder_sub_l1_dec_2_7_0(clk_312_5,rstn,sum1_d1[7][0],sum1_d1[7][1],1'b0,add_valid_in_2,sum2[7][0],               );
 
 always@(posedge clk_312_5)
 begin

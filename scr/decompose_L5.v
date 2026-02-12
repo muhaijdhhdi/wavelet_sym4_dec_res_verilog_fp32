@@ -1,142 +1,80 @@
-//==============================================================================
-// 小波分解 L5 模块
-// 
-// 功能：第五级分解，a4(1/周期) → a5(1/2周期)
-// 
-// 流水线：
-//   Stage 1: 乘法 → 寄存器
-//   Stage 2: 加法 → 寄存器
-//   Stage 3: 截断 → 输出寄存器
-//
-// 特点：
-//   - 输入：每周期1个a4
-//   - 输出：每2周期1个a5（valid信号指示）
-//
-// 延迟：3周期
-// 乘法器：1×8 = 8个
-//din_valid->dout_valid延迟3+7=10个周期
-//
-//==============================================================================
+`timescale 1ns/1ns
+// `define VIVADO_SIM
+`define DEBUG_DECOMPOSE_L1
+`ifndef VIVADO_SIM
+    `include "../../scr/fp32_mult.v"
+    `include "../../scr/fp32_add_sub.v"
+`endif
 
-module decompose_L5 #(
-    parameter INTERNAL_WIDTH = 48,
-    parameter COEF_WIDTH     = 25,
-    parameter COEF_FRAC      = 23,
-    
-    // 分解滤波器系数
-    parameter signed [COEF_WIDTH-1:0] DEC_H0 = 0,
-    parameter signed [COEF_WIDTH-1:0] DEC_H1 = 0,
-    parameter signed [COEF_WIDTH-1:0] DEC_H2 = 0,
-    parameter signed [COEF_WIDTH-1:0] DEC_H3 = 0,
-    parameter signed [COEF_WIDTH-1:0] DEC_H4 = 0,
-    parameter signed [COEF_WIDTH-1:0] DEC_H5 = 0,
-    parameter signed [COEF_WIDTH-1:0] DEC_H6 = 0,
-    parameter signed [COEF_WIDTH-1:0] DEC_H7 = 0
+module decompose_L5#(
+parameter [31:0]DEC_H0 = 32'hbd9b2b0e, // Float: -0.07576571
+parameter [31:0]DEC_H1 = 32'hbcf2c635, // Float: -0.02963553
+parameter [31:0]DEC_H2 = 32'h3efec7e0, // Float: 0.49761867
+parameter [31:0]DEC_H3 = 32'h3f4dc1d3, // Float: 0.80373875
+parameter [31:0]DEC_H4 = 32'h3e9880d1, // Float: 0.29785780
+parameter [31:0]DEC_H5 = 32'hbdcb339e, // Float: -0.09921954
+parameter [31:0]DEC_H6 = 32'hbc4e80df, // Float: -0.01260397
+parameter [31:0]DEC_H7 = 32'h3d03fc5f  // Float: 0.03222310  
 )(
-    input  wire                              clk,
-    input  wire                              rst_n,
-    
-    // 输入：1个a4系数 (Q25.23)，每周期1个
-    input  wire                              din_valid,
-    input  wire signed [INTERNAL_WIDTH-1:0]  a4_in,
-    
-    // 输出：1个a5系数 (Q25.23)，每2周期1个
-    output reg                               dout_valid,
-    output reg  signed [INTERNAL_WIDTH-1:0]  a5_out
+    input clk_78_125,
+    input clk_312_5,
+    input rstn,
+    input din_valid,
+    input [31:0] a4_0,
+    output reg dout_valid,
+    output reg a5_0
 );
 
-    reg [6:0]has_data;
-    //==========================================================================
-    // 下采样相位计数器
-    //==========================================================================
-    reg phase;
-    
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            phase <= 1'b0;
-        end else if (din_valid&&has_data[6]) begin
-            phase <= ~phase;
-        end
-    end
-    
-    //==========================================================================
-    // 历史数据缓存
-    //==========================================================================
-    reg signed [INTERNAL_WIDTH-1:0] a4_hist [0:6];
-    
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            a4_hist[0] <= 0; a4_hist[1] <= 0; a4_hist[2] <= 0; a4_hist[3] <= 0;
-            a4_hist[4] <= 0; a4_hist[5] <= 0; a4_hist[6] <= 0;
-        end else if (din_valid) begin
-            a4_hist[6] <= a4_hist[5];
-            a4_hist[5] <= a4_hist[4];
-            a4_hist[4] <= a4_hist[3];
-            a4_hist[3] <= a4_hist[2];
-            a4_hist[2] <= a4_hist[1];
-            a4_hist[1] <= a4_hist[0];
-            a4_hist[0] <= a4_in;
-        end
-    end
-    
-    //==========================================================================
-    // Valid 流水线（只在phase=0时启动）
-    //==========================================================================
-    reg valid_s1, valid_s2;
-    
-    wire start_calc = din_valid && (phase == 1'b0);
-    
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            valid_s1 <= 0;
-            valid_s2 <= 0;
-            dout_valid <= 0;
-            has_data <= 7'b0000000;
-        end else begin
-            has_data <= {has_data[5:0], din_valid};
-            valid_s1 <= start_calc&has_data[6];
-            valid_s2 <= valid_s1;
-            dout_valid <= valid_s2;
-        end
-    end
-    
-    //==========================================================================
-    // Stage 1: 乘法
-    //==========================================================================
-    localparam MULT_WIDTH = INTERNAL_WIDTH + COEF_WIDTH;
-    
-    reg signed [MULT_WIDTH-1:0] mult_s1 [0:7];
-    
-    always @(posedge clk) begin
-        mult_s1[0] <= a4_in       * $signed(DEC_H0);
-        mult_s1[1] <= a4_hist[0]  * $signed(DEC_H1);
-        mult_s1[2] <= a4_hist[1]  * $signed(DEC_H2);
-        mult_s1[3] <= a4_hist[2]  * $signed(DEC_H3);
-        mult_s1[4] <= a4_hist[3]  * $signed(DEC_H4);
-        mult_s1[5] <= a4_hist[4]  * $signed(DEC_H5);
-        mult_s1[6] <= a4_hist[5]  * $signed(DEC_H6);
-        mult_s1[7] <= a4_hist[6]  * $signed(DEC_H7);
-    end
-    
-    //==========================================================================
-    // Stage 2: 累加
-    //==========================================================================
-    reg signed [MULT_WIDTH+2:0] sum_s2;
-    
-    always @(posedge clk) begin
-        sum_s2 <= mult_s1[0] + mult_s1[1] + mult_s1[2] + mult_s1[3] +
-                  mult_s1[4] + mult_s1[5] + mult_s1[6] + mult_s1[7];
-    end
-    
-    //==========================================================================
-    // Stage 3: 截断并输出
-    //==========================================================================
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            a5_out <= 0;
-        end else begin
-            a5_out <= sum_s2[COEF_FRAC + INTERNAL_WIDTH - 1 : COEF_FRAC];
-        end
-    end
+reg [7:0] has_data;
+always@(posedge clk_78_125 or negedge rstn) begin
+    if(!rstn)
+        has_data<=0;
+    else 
+        has_data<={has_data[6:0],din_valid};
+end 
+
+reg [31:0] x_hist_temp[0:6];
+
+always@(posedge clk_78_125 or negedge rstn) begin
+  if(!rstn) begin
+    x_hist_temp[0]<=0;x_hist_temp[1]<=0;x_hist_temp[2]<=0;
+    x_hist_temp[3]<=0;x_hist_temp[4]<=0;x_hist_temp[5]<=0;
+    x_hist_temp[6]<=0;
+  end else if(din_valid) begin
+    x_hist_temp[0]<=a3_1;
+    x_hist_temp[1]<=a3_0;
+    x_hist_temp[2]<=x_hist_temp[0];
+    x_hist_temp[3]<=x_hist_temp[1];
+    x_hist_temp[4]<=x_hist_temp[2];
+    x_hist_temp[5]<=x_hist_temp[3];
+    x_hist_temp[6]<=x_hist_temp[4];
+  end
+end
+
+reg [2:0] cnt;
+wire pos_clk_slow;
+reg clk_slow_d1;
+wire clk_slow=clk_78_125;
+
+always @(posedge clk_312_5) begin
+    clk_slow_d1<=clk_78_125;
+end
+
+assign pos_clk_slow=clk_slow&(~clk_slow_d1);
+
+//cnt=3->0的时�? 上升�?
+always @(posedge clk_312_5 or negedge rstn) begin
+    if(!rstn) begin
+        cnt<=0;
+    end else if(pos_clk_slow)//cnt_78_125上升沿对齐cnt=0
+            cnt<=1;
+        else if(cnt==3)
+            cnt<=0;
+        else 
+            cnt<=cnt+1;
+end
+
+wire valid_next=(cnt==3);
+
 
 endmodule
