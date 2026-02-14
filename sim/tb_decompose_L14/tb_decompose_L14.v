@@ -3,18 +3,24 @@
 `ifndef VIVADO_SIM
     `include"../../scr/decompose_L1.v"
     `include"../../scr/decompose_L2.v"
+    `include"../../scr/decompose_L3.v"
+    `include "../../scr/decompose_L4.v"
 `endif
 
 `timescale 1ns/1ns
 
-module tb_decompose_L12;
+module tb_decompose_L14;
     reg clk_slow=1;reg clk_fast=1;reg rstn;
     reg [31:0] din[0:15];
     reg din_valid=0;
     wire dout_valid_L1_dec;
     wire dout_valid_L2_dec;
+    wire dout_valid_L3_dec;
+    wire dout_valid_L4_dec;
     wire [31:0] a1[7:0];
     wire [31:0] a2[3:0];
+    wire [31:0] a3[1:0];
+    wire [31:0] a4[0:0];
     wire dout_valid;
 
     parameter T_slow=40;
@@ -91,6 +97,47 @@ module tb_decompose_L12;
         .dout_valid(dout_valid_L2_dec)
     );
 
+    decompose_L3 #(
+        .DEC_H0( DEC_H0), 
+        .DEC_H1( DEC_H1),
+        .DEC_H2( DEC_H2),
+        .DEC_H3( DEC_H3),
+        .DEC_H4( DEC_H4),
+        .DEC_H5( DEC_H5),
+        .DEC_H6( DEC_H6),
+        .DEC_H7( DEC_H7)
+    ) u_dut_L3 (
+        .clk_78_125(clk_slow),
+        .clk_312_5(clk_fast),
+        .rstn(rstn),
+        .din_valid(dout_valid_L2_dec),
+       
+        .a2_0(a2[0]), .a2_1(a2[1]), .a2_2(a2[2]), .a2_3(a2[3]),
+        .a3_0(a3[0]), .a3_1(a3[1]),
+        .dout_valid(dout_valid_L3_dec)
+    );
+
+    decompose_L4 #(
+        .DEC_H0( DEC_H0), 
+        .DEC_H1( DEC_H1),
+        .DEC_H2( DEC_H2),
+        .DEC_H3( DEC_H3),
+        .DEC_H4( DEC_H4),
+        .DEC_H5( DEC_H5),
+        .DEC_H6( DEC_H6),
+        .DEC_H7( DEC_H7)
+    ) u_dut_L4 (
+        .clk_78_125(clk_slow),
+        .clk_312_5(clk_fast),
+        .rstn(rstn),
+        .din_valid(dout_valid_L3_dec),
+       
+        .a3_0(a3[0]), .a3_1(a3[1]),
+        .a4_0(a4[0]),
+        .dout_valid(dout_valid_L4_dec)
+    );
+
+
     integer i;
     integer scan_ret;
     integer file_handle;
@@ -139,10 +186,15 @@ module tb_decompose_L12;
 
     integer out_file_l1_dec;
     integer out_file_l2_dec;
+    integer out_file_l3_dec;
+    integer out_file_l4_dec;
     initial begin
-        out_file_l1_dec=$fopen("E:/project/pulse-processing/verilog_wavelet/fp32_prj/project_1/wavelet_sym4_dec_res_verilog_fp32/sim/tb_decompose_L12/a1_out_ieee754.txt");
-        out_file_l2_dec=$fopen("E:/project/pulse-processing/verilog_wavelet/fp32_prj/project_1/wavelet_sym4_dec_res_verilog_fp32/sim/tb_decompose_L12/a2_out_ieee754.txt");
-        if ((out_file_l1_dec==0)||(out_file_l2_dec==0) )begin
+        out_file_l1_dec=$fopen("E:/project/pulse-processing/verilog_wavelet/fp32_prj/project_1/wavelet_sym4_dec_res_verilog_fp32/sim/tb_decompose_L14/a1_out_ieee754.txt");
+        out_file_l2_dec=$fopen("E:/project/pulse-processing/verilog_wavelet/fp32_prj/project_1/wavelet_sym4_dec_res_verilog_fp32/sim/tb_decompose_L14/a2_out_ieee754.txt");
+        out_file_l3_dec=$fopen("E:/project/pulse-processing/verilog_wavelet/fp32_prj/project_1/wavelet_sym4_dec_res_verilog_fp32/sim/tb_decompose_L14/a3_out_ieee754.txt");
+        out_file_l4_dec=$fopen("E:/project/pulse-processing/verilog_wavelet/fp32_prj/project_1/wavelet_sym4_dec_res_verilog_fp32/sim/tb_decompose_L14/a4_out_ieee754.txt");
+
+        if ((out_file_l1_dec==0)||(out_file_l2_dec==0)||(out_file_l3_dec==0)||(out_file_l4_dec==0) )begin
             $display("Failed to open output file.");
             $finish;
         end
@@ -161,11 +213,26 @@ module tb_decompose_L12;
         a2[0],a2[1],a2[2],a2[3]);
       end
     end
-assign dout_valid=dout_valid_L2_dec;
+
+    always@(posedge clk_slow)begin
+      if(dout_valid_L3_dec) begin
+        $fdisplay(out_file_l3_dec,"%b,%b",
+        a3[0],a3[1]);
+      end
+    end
+
+    always@(posedge clk_slow)begin
+      if(dout_valid_L4_dec) begin
+        $fdisplay(out_file_l4_dec,"%b",
+        a4[0]);
+      end
+    end
+assign dout_valid=dout_valid_L4_dec;
+
 `ifndef VIVADO_SIM
     initial begin
-        $dumpfile("waveform/tb_decompose_L12.vcd");
-        $dumpvars(0, tb_decompose_L12); 
+        $dumpfile("waveform/tb_decompose_L14.vcd");
+        $dumpvars(0, tb_decompose_L14); 
     end
 `endif
 endmodule

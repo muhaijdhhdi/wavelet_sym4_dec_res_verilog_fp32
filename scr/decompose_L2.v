@@ -1,10 +1,9 @@
 `timescale 1ns/1ns
-// `define VIVADO_SIM
-`define DEBUG_DECOMPOSE_L1
+ `define VIVADO_SIM
 `ifndef VIVADO_SIM
     `include "../../scr/fp32_mult.v"
     `include "../../scr/fp32_add_sub.v"
-`endif
+`endif 
 module decompose_L2#(
     parameter [31:0] DEC_H0 = 32'hbd9b2b0e, // Float: -0.07576571
     parameter [31:0] DEC_H1 = 32'hbcf2c635,
@@ -21,7 +20,6 @@ module decompose_L2#(
     input wire din_valid,
     input wire [31:0] a1_0,   input wire [31:0] a1_1,   input wire [31:0] a1_2,   input wire [31:0] a1_3,
     input wire [31:0] a1_4,   input wire [31:0] a1_5,   input wire [31:0] a1_6,   input wire [31:0] a1_7,
-    input wire [31:0] a1_8,   input wire [31:0] a1_9,   input wire [31:0] a1_10,  input wire [31:0] a1_11,
     output reg [31:0] a2_0,   output reg [31:0] a2_1,   output reg [31:0] a2_2,   output reg [31:0] a2_3,
     output reg dout_valid
 );
@@ -133,8 +131,8 @@ fp32_mult fp32_mult_l2_dec_3_1(clk_312_5,rstn,curr_din[5],DEC_H1,mult_valid_in,p
 fp32_mult fp32_mult_l2_dec_3_2(clk_312_5,rstn,curr_din[4],DEC_H2,mult_valid_in,product[3][2],               );
 fp32_mult fp32_mult_l2_dec_3_3(clk_312_5,rstn,curr_din[3],DEC_H3,mult_valid_in,product[3][3],               );
 fp32_mult fp32_mult_l2_dec_3_4(clk_312_5,rstn,curr_din[2],DEC_H4,mult_valid_in,product[3][4],               );
-fp32_mult fp32_mult_l2_dec_3_5(clk_312_5,rstn,curr_din[1] DEC_H5,mult_valid_in,product[3][5],               );
-fp32_mult fp32_mult_l2_dec_3_6(clk_312_5,rstn,curr_din[0] DEC_H6,mult_valid_in,product[3][6],               );
+fp32_mult fp32_mult_l2_dec_3_5(clk_312_5,rstn,curr_din[1], DEC_H5,mult_valid_in,product[3][5],               );
+fp32_mult fp32_mult_l2_dec_3_6(clk_312_5,rstn,curr_din[0], DEC_H6,mult_valid_in,product[3][6],               );
 fp32_mult fp32_mult_l2_dec_3_7(clk_312_5,rstn,x_hist[0],  DEC_H7,mult_valid_in,product[3][7],               );
 
 reg mult_valid_out_d1;
@@ -211,17 +209,40 @@ end
 wire add_valid_in_2=add_valid_out_1_d1;
 wire add_valid_out_2;
 
-wire [31:0] sum2[0:7][0:0];
+wire [31:0] sum2[0:3][0:0];
 fp32_add_sub fp32_adder_sub_l2_dec_2_0_0(clk_312_5,rstn,sum1_d1[0][0],sum1_d1[0][1],1'b0,add_valid_in_2,sum2[0][0],add_valid_out_2);
 fp32_add_sub fp32_adder_sub_l2_dec_2_1_0(clk_312_5,rstn,sum1_d1[1][0],sum1_d1[1][1],1'b0,add_valid_in_2,sum2[1][0],              );
 fp32_add_sub fp32_adder_sub_l2_dec_2_2_0(clk_312_5,rstn,sum1_d1[2][0],sum1_d1[2][1],1'b0,add_valid_in_2,sum2[2][0],              );
 fp32_add_sub fp32_adder_sub_l2_dec_2_3_0(clk_312_5,rstn,sum1_d1[3][0],sum1_d1[3][1],1'b0,add_valid_in_2,sum2[3][0],              );
 
-always@(posedge clk_312_5) begin
-    dout_valid<=add_valid_out_2;
-    a2_0<=sum2[0][0];
-    a2_1<=sum2[1][0];
-    a2_2<=sum2[2][0];
-    a2_3<=sum2[3][0];
+reg [2:0] dout_valid_d;
+reg [31:0] a2_d[0:3][0:2];
+always@(posedge clk_312_5)
+    begin
+      dout_valid_d={dout_valid_d[1:0],add_valid_out_2};
+      for(i=0;i<4;i=i+1)
+        begin
+          a2_d[i][0]<=sum2[i][0];
+          for(j=1;j<3;j=j+1)
+            a2_d[i][j]<=a2_d[i][j-1];
+        end
     end
+
+always @(posedge clk_78_125) begin
+    dout_valid<=dout_valid_d[2];
+    a2_0<=a2_d[0][2];
+    a2_1<=a2_d[1][2];
+    a2_2<=a2_d[2][2];
+    a2_3<=a2_d[3][2];
+end
+
+// always@(posedge clk_312_5) begin
+//     dout_valid<=add_valid_out_2;
+//     a2_0<=sum2[0][0];
+//     a2_1<=sum2[1][0];
+//     a2_2<=sum2[2][0];
+//     a2_3<=sum2[3][0];
+//     end
+
+
 endmodule

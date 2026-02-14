@@ -33,7 +33,7 @@ module tb_fp32_add_sub ();
     integer loop_active;
     
     // 实例化被测模块 (Device Under Test)
-    fp32_adder_sub dut (
+    fp32_add_sub dut (
         .clk(clk),
         .rstn(rstn),
         .dina(dina),

@@ -1,4 +1,4 @@
-module fp32_adder_sub (
+module fp32_add_sub (
     input clk,
     input rstn,
     input [31:0]dina,

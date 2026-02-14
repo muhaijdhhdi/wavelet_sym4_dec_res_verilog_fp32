@@ -1,12 +1,12 @@
 `timescale 1ns/1ns
-// `define VIVADO_SIM
-`define DEBUG_DECOMPOSE_L1
+`define VIVADO_SIM
+//`define DEBUG_DECOMPOSE_L1
 `ifndef VIVADO_SIM
     `include "../../scr/fp32_mult.v"
     `include "../../scr/fp32_add_sub.v"
 `endif
 
-module decompose_L4(
+module decompose_L4#(
     parameter [31:0]DEC_H0 = 32'hbd9b2b0e, // Float: -0.07576571
     parameter [31:0]DEC_H1 = 32'hbcf2c635, // Float: -0.02963553
     parameter [31:0]DEC_H2 = 32'h3efec7e0, // Float: 0.49761867 
@@ -23,7 +23,7 @@ module decompose_L4(
     input [31:0] a3_0, input [31:0] a3_1,
     output reg dout_valid,
     output reg [31:0] a4_0
-)
+);
 
 reg [3:0] has_data;
 always@(posedge clk_78_125 or negedge rstn) begin
@@ -62,7 +62,7 @@ end
 
 assign pos_clk_slow=clk_slow&(~clk_slow_d1);
 
-//cnt=3->0的时�? 上升�?
+//cnt=3->0的时�?? 上升�??
 always @(posedge clk_312_5 or negedge rstn) begin
     if(!rstn) begin
         cnt<=0;
@@ -81,7 +81,7 @@ reg [31:0] curr_din[0:1];
 reg [31:0] x_hist[0:6];
 
 always@(posedge clk_312_5) begin
-  mult_vlaid_in<=(valid_in)&(has_data[3]);
+  mult_valid_in<=(valid_next)&(has_data[3]);
   curr_din[0]<=a3_0;
   curr_din[1]<=a3_1;
   x_hist[0]<=x_hist_temp[0];x_hist[4]<=x_hist_temp[4];
@@ -102,7 +102,7 @@ fp32_mult fp32_mult_l4_dec_0_5(clk_312_5,rstn,x_hist[4],  DEC_H5,mult_valid_in,p
 fp32_mult fp32_mult_l4_dec_0_6(clk_312_5,rstn,x_hist[5],  DEC_H6,mult_valid_in,product[0][6],              );
 fp32_mult fp32_mult_l4_dec_0_7(clk_312_5,rstn,x_hist[6],  DEC_H7,mult_valid_in,product[0][7],              );
 
-reg add_valid_out_0_d1;
+reg mult_valid_out_d1;
 reg [31:0] product_d1[0:0][0:7];
 
 integer i,j;
@@ -120,9 +120,9 @@ wire add_valid_out_0;
 wire [31:0] sum0[0:0][0:3];
 
 fp32_add_sub fp32_adder_sub_l4_dec_0_0_0(clk_312_5,rstn,product_d1[0][0],product_d1[0][1],1'b0,add_valid_in_0,sum0[0][0],add_valid_out_0);
-fp32_add_sub fp32_adder_sub_l3_dec_0_0_1(clk_312_5,rstn,product_d1[0][2],product_d1[0][3],1'b0,add_valid_in_0,sum0[0][1],              );
+fp32_add_sub fp32_adder_sub_l4_dec_0_0_1(clk_312_5,rstn,product_d1[0][2],product_d1[0][3],1'b0,add_valid_in_0,sum0[0][1],              );
 fp32_add_sub fp32_adder_sub_l4_dec_0_0_2(clk_312_5,rstn,product_d1[0][4],product_d1[0][5],1'b0,add_valid_in_0,sum0[0][2],              );
-fp32_add_sub fp32_adder_sub_l4_dec_0_0_2(clk_312_5,rstn,product_d1[0][4],product_d1[0][5],1'b0,add_valid_in_0,sum0[0][2],              );
+fp32_add_sub fp32_adder_sub_l4_dec_0_0_3(clk_312_5,rstn,product_d1[0][6],product_d1[0][7],1'b0,add_valid_in_0,sum0[0][3],              );
 
 reg add_valid_out_0_d1;
 reg [31:0] sum0_d1[0:0][0:3];
@@ -139,7 +139,7 @@ wire add_valid_out_1;
 
 wire [31:0] sum1[0:0][0:1];
 
-fp32_add_sub fp32_adder_sub_l4_dec_1_0_0(clk_312_5,rstn,sum0_d1[0][0],sum0_d1[0][1],1'b1,add_valid_in_1,sum1[0][0],add_valid_out_1);
+fp32_add_sub fp32_adder_sub_l4_dec_1_0_0(clk_312_5,rstn,sum0_d1[0][0],sum0_d1[0][1],1'b0,add_valid_in_1,sum1[0][0],add_valid_out_1);
 fp32_add_sub fp32_adder_sub_l4_dec_1_0_1(clk_312_5,rstn,sum0_d1[0][2],sum0_d1[0][3],1'b0,add_valid_in_1,sum1[0][1],              );
 
 reg add_valid_out_1_d1;
@@ -158,8 +158,28 @@ wire add_valid_out_2;
 wire [31:0] sum2[0:0][0:0];
 fp32_add_sub fp32_adder_sub_l4_dec_2_0_0(clk_312_5,rstn,sum1_d1[0][0],sum1_d1[0][1],1'b0,add_valid_in_2,sum2[0][0],add_valid_out_2);
 
-always@(posedge clk_312_5) begin
-  dout_valid<=add_valid_out;
-  a3_0<=sum2[0][0];
+reg [2:0] dout_valid_d;
+reg[31:0] a4_d[0:0][0:2];
+
+always@(posedge clk_312_5)begin
+  dout_valid_d={dout_valid_d[1:0],add_valid_out_2};
+  for(i=0;i<1;i=i+1)
+    begin
+        a4_d[i][0]<=sum2[i][0];
+        for(j=1;j<3;j=j+1)
+            begin
+              a4_d[i][j]<=a4_d[i][j-1];
+            end
+    end
 end
+
+always@(posedge clk_78_125) begin
+  dout_valid<=dout_valid_d[2];
+  a4_0<=a4_d[0][2];
+end
+
+// always@(posedge clk_312_5) begin
+//   dout_valid<=add_valid_out_2;
+//   a4_0<=sum2[0][0];
+// end
 endmodule

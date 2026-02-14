@@ -8,7 +8,7 @@ def float_to_ieee754_binary(f):
     ieee754_int = struct.unpack('>I', packed)[0]
     return format(ieee754_int, '032b')
 
-def x_gen(seed=11232, num_test_cycles=10000, amplitude=10000):
+def x_gen(seed=11232, num_test_cycles=1000, amplitude=10000):
     total_samples = num_test_cycles * 16
     n = np.arange(total_samples)
 

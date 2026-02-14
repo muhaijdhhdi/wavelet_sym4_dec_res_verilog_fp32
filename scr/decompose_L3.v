@@ -1,5 +1,5 @@
 `timescale 1ns/1ns
-// `define VIVADO_SIM
+ //`define VIVADO_SIM
 `define DEBUG_DECOMPOSE_L1
 `ifndef VIVADO_SIM
     `include "../../scr/fp32_mult.v"
@@ -179,11 +179,34 @@ wire [31:0]sum2[0:1][0:0];
 fp32_add_sub fp32_adder_sub_l3_dec_2_0_0(clk_312_5,rstn,sum1_d1[0][0],sum1_d1[0][1],1'b0,add_valid_in_2,sum2[0][0],add_valid_out_2);
 fp32_add_sub fp32_adder_sub_l3_dec_2_1_0(clk_312_5,rstn,sum1_d1[1][0],sum1_d1[1][1],1'b0,add_valid_in_2,sum2[1][0],              );
 
-always@(posedge clk_312_5) begin
-  dout_valid<=add_valid_out_2;
-  a3_0<=sum2[0][0];
-  a3_1<=sum2[1][0];
+reg [2:0] dout_valid_d;
+reg [31:0] a3_d[0:1][0:2];
+
+always @(posedge clk_312_5) begin
+  dout_valid_d={dout_valid_d[1:0],add_valid_out_2};
+  for(i=0;i<2;i=i+1)
+   begin
+     a3_d[i][0]<=sum2[i][0];
+     for(j=1;j<3;j=j+1)
+      begin
+        a3_d[i][j]<=a3_d[i][j-1];
+      end
+   end
 end
+
+always@(posedge clk_78_125) begin
+  dout_valid<=dout_valid_d[2];
+  a3_0<=a3_d[0][2];
+  a3_1<=a3_d[1][2];
+end
+
+
+
+// always@(posedge clk_312_5) begin
+//   dout_valid<=add_valid_out_2;
+//   a3_0<=sum2[0][0];
+//   a3_1<=sum2[1][0];
+// end
 
 
 endmodule

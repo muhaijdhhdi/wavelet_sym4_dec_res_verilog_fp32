@@ -62,9 +62,8 @@ h_dec = np.array([
 ])
 
 # 文件路径 (使用 raw string r'' 处理 Windows 路径)
-base_path = r"E:/project/pulse-processing/verilog_wavelet/fp32_prj/project_1/wavelet_sym4_dec_res_verilog_fp32/sim/tb_decompose_L1.v"
-file_input_16bit = base_path + r"/x_input_16bit.txt"
-file_output_ieee = base_path + r"/x_output_ieee754.txt"
+file_input_16bit = r"E:/project/pulse-processing/verilog_wavelet/fp32_prj/project_1/wavelet_sym4_dec_res_verilog_fp32/sim/tb_decompose_L1.v/x_input_16bit.txt"
+file_output_ieee = r"E:/project/pulse-processing/verilog_wavelet/fp32_prj/project_1/wavelet_sym4_dec_res_verilog_fp32/sim/tb_decompose_L12/a2_out_ieee754.txt"
 
 # ==========================================
 # 3. 你的 Python 模型 (完全保持原样)
@@ -88,6 +87,147 @@ def dec_L1(data, h):
             res.append(y)
         x_hist = din[9:16]
     return np.array(res)
+
+def dec_L2(data, h):
+        block_size = 8
+        num_cycles = len(data) // block_size
+        res = []
+        
+        # 初始化历史：取第0块(长度8)的最后7个点 -> data[1:8]
+        x_hist = data[1:8]
+        
+        for i in range(1, num_cycles):
+            din = data[i*block_size : (i+1)*block_size]
+            combined = np.concatenate((x_hist, din))
+            for k in range(4):
+                start_idx = k * 2
+                window = combined[start_idx : start_idx + len(h)]
+                y = np.sum(window[::-1] * h)
+                res.append(y)
+            x_hist = din[1:8]
+        return np.array(res)
+
+    # --- L3 模型 (Block Size: 4 -> 2) ---
+def dec_L3(data, h):
+    block_size = 4
+    num_cycles = len(data) // block_size
+    res = []
+    x_hist = data[1:8] 
+    for i in range(2, num_cycles):
+        din = data[i*block_size : (i+1)*block_size] # 长度 4
+        
+        combined = np.concatenate((x_hist, din)) # 7 + 4 = 11
+        
+        for k in range(2): # 输出 2 点
+            start_idx = k * 2
+            window = combined[start_idx : start_idx + len(h)]
+            y = np.sum(window[::-1] * h)
+            res.append(y)
+        x_hist = combined[4:11] 
+        
+    return np.array(res)
+
+# --- L4 模型 (Block Size: 2 -> 1) ---
+def dec_L4(data, h):
+    block_size = 2
+    num_cycles = len(data) // block_size
+    res = []
+    x_hist = data[1:8] # 取前8个点中的后7个
+    
+    # i 从 4 开始 (跳过 0,1,2,3 四个块)
+    for i in range(4, num_cycles):
+        din = data[i*block_size : (i+1)*block_size] # 长度 2
+        
+        combined = np.concatenate((x_hist, din)) # 7 + 2 = 9
+        
+        for k in range(1): # 输出 1 点
+            start_idx = k * 2
+            window = combined[start_idx : start_idx + len(h)]
+            y = np.sum(window[::-1] * h)
+            res.append(y)
+            
+        # 更新历史：取 combined 的最后 7 个点
+        # combined 长度 9。取 2~8
+        x_hist = combined[2:9]
+        
+    return np.array(res)
+#L5 模型 (Block Size: 1 -> 1)
+def dec_L5(data, h):
+    block_size = 1
+    num_cycles = len(data) // block_size
+    res = []
+    x_hist = data[0:7]
+    phase=0 #记录是否应该计算输出，因为l5以后是每2个点输出1个点
+    
+    # i 从 8 开始 (跳过 0~6 7个块)
+    for i in range(7, num_cycles):
+        if phase==0:
+            phase=1
+        else:
+            phase=0
+
+            din = data[i*block_size : (i+1)*block_size] # 长度 1
+            combined = np.concatenate((x_hist, din)) # 7 + 1 = 8
+            if phase == 1:
+                for k in range(1): # 输出 1 点
+                    start_idx = k * 2
+                    window = combined[start_idx : start_idx + len(h)]
+                    y = np.sum(window[::-1] * h)
+                    res.append(y)
+            x_hist = combined[1:8]
+            
+
+        return np.array(res)
+
+    def dec_L6(data, h):
+        block_size = 1
+        num_cycles = len(data) // block_size
+        res = []
+        x_hist = data[0:7]
+        phase=0
+
+        for i in range(7, num_cycles):
+            if phase==0:
+                phase=1
+            else:
+                phase=0
+            din = data[i*block_size : (i+1)*block_size] # 长度 1
+            combined = np.concatenate((x_hist, din)) # 7 + 1 = 8
+            
+            if phase == 1:
+                for k in range(1): # 输出 1 点
+                    start_idx = k * 2
+                    window = combined[start_idx : start_idx + len(h)]
+                    y = np.sum(window[::-1] * h)
+                    res.append(y)
+            x_hist = combined[1:8]
+            
+        return np.array(res)
+
+    def dec_L7(data, h):
+        block_size = 1
+        num_cycles = len(data) // block_size
+        res = []
+        x_hist = data[0:7]
+        phase=0
+
+        for i in range(7, num_cycles):
+            if phase==0:
+                phase=1
+            else:
+                phase=0
+            din = data[i*block_size : (i+1)*block_size] # 长度 1
+            combined = np.concatenate((x_hist, din)) # 7 + 1 = 8
+            
+            if phase == 1:
+                for k in range(1): # 输出 1 点
+                    start_idx = k * 2
+                    window = combined[start_idx : start_idx + len(h)]
+                    y = np.sum(window[::-1] * h)
+                    res.append(y)
+            x_hist = combined[1:8]
+            
+        return np.array(res)
 
 # ==========================================
 # 4. 主处理流程
@@ -113,7 +253,9 @@ if "__main__" == __name__:
     input_np = np.array(input_data_list)
     # 运行模型生成预期结果 (Golden Reference)
     a1_fp_python = dec_L1(input_np, h_dec)
-    print(f"Python model executed. Output length: {len(a1_fp_python)}")
+    a2_fp_python = dec_L2(a1_fp_python,h_dec)
+
+    print(f"Python model executed. a1 output length: {len(a1_fp_python)},a2:{len(a2_fp_python)}")
 
     # --- C. 读取 Verilog 输出文件 (32位 IEEE 754) ---
     verilog_data_list = []
@@ -130,21 +272,21 @@ if "__main__" == __name__:
         print(f"Error: 找不到输出文件 {file_output_ieee}")
         exit()
 
-    a1_fp_verilog = np.array(verilog_data_list)
+    a2_fp_verilog = np.array(verilog_data_list)
 
     # ==========================================
     # 5. 对比与绘图
     # ==========================================
 
     # 对齐数据长度 (取交集长度)
-    min_len = min(len(a1_fp_python), len(a1_fp_verilog))
+    min_len = min(len(a2_fp_python), len(a2_fp_verilog))
 
     if min_len == 0:
         print("Error: 有一个数据源为空，无法对比。")
         exit()
 
-    py_trunc = a1_fp_python[:min_len-1]
-    vl_trunc = a1_fp_verilog[:min_len-1]
+    py_trunc = a2_fp_python[:min_len-1]
+    vl_trunc = a2_fp_verilog[:min_len-1]
 
     # 计算误差
     diff = np.abs(py_trunc - vl_trunc)
@@ -153,7 +295,7 @@ if "__main__" == __name__:
 
     print("-" * 40)
     print("打印一些结果样本对比 (Python vs Verilog):")
-    for i in range(7900,7900+43):
+    for i in range(min(100,len(py_trunc))):
         print(f"Sample {i}: Python={py_trunc[i]:.6f}, Verilog={vl_trunc[i]:.6f}, Abs Error={diff[i]:.6e}")
     print("-" * 40)
     print(f"Validation Results:")

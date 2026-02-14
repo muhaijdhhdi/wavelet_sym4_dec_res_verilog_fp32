@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
- `define VIVADO_SIM
-`define DEBUG_DECOMPOSE_L1
+  `define VIVADO_SIM
+//`define DEBUG_DECOMPOSE_L1
 `ifndef VIVADO_SIM
     `include "../../scr/fp32_mult.v"
     `include "../../scr/fp32_add_sub.v"
@@ -14,14 +14,14 @@
 //din_valid ->dout_valid 2tslow+21tfast
 
 module decompose_L1#(
-    parameter [31:0]  DEC_H0 = 0,
-    parameter [31:0]  DEC_H1 = 0,
-    parameter [31:0]  DEC_H2 = 0,
-    parameter [31:0]  DEC_H3 = 0,
-    parameter [31:0]  DEC_H4 = 0,
-    parameter [31:0]  DEC_H5 = 0,
-    parameter [31:0]  DEC_H6 = 0,
-    parameter  [31:0] DEC_H7 = 0
+    parameter [31:0] DEC_H0 = 32'hbd9b2b0e, // Float: -0.07576571
+    parameter [31:0] DEC_H1 = 32'hbcf2c635,
+    parameter [31:0] DEC_H2 = 32'h3efec7e0,
+    parameter [31:0] DEC_H3 = 32'h3f4dc1d3,
+    parameter [31:0] DEC_H4 = 32'h3e9880d1,
+    parameter [31:0] DEC_H5 = 32'hbdcb339e,
+    parameter [31:0] DEC_H6 = 32'hbc4e80df,
+    parameter [31:0] DEC_H7 = 32'h3d03fc5f
 )(
     input wire clk_78_125,
     input wire clk_312_5,
@@ -142,7 +142,7 @@ end
 //调用fp32的模�?
 
 wire [31:0] product [0:7][0:7];
-
+wire mult_valid_out;
 fp32_mult fp32_mult_l1_dec_0_0 (clk_312_5,rstn,curr_din[0],    DEC_H0,mult_valid_in,product[0][0],mult_valid_out);
 fp32_mult fp32_mult_l1_dec_0_1 (clk_312_5,rstn,x_hist[0],      DEC_H1,mult_valid_in,product[0][1],              );
 fp32_mult fp32_mult_l1_dec_0_2 (clk_312_5,rstn,x_hist[1],      DEC_H2,mult_valid_in,product[0][2],              );
@@ -259,41 +259,41 @@ wire  add_valid_out_0;
 //adder_0 product[0-1][2-3][4-5][6-7][0:7]
 wire [31:0] sum0[0:7][0:3];
 
-fp32_adder_sub fp32_adder_sub_l1_dec_0_0_0(clk_312_5,rstn,product_d1[0][0],product_d1[0][1],1'b0,add_valid_in_0,sum0[0][0],add_valid_out_0);
-fp32_adder_sub fp32_adder_sub_l1_dec_0_1_0(clk_312_5,rstn,product_d1[1][0],product_d1[1][1],1'b0,add_valid_in_0,sum0[1][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_2_0(clk_312_5,rstn,product_d1[2][0],product_d1[2][1],1'b0,add_valid_in_0,sum0[2][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_3_0(clk_312_5,rstn,product_d1[3][0],product_d1[3][1],1'b0,add_valid_in_0,sum0[3][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_4_0(clk_312_5,rstn,product_d1[4][0],product_d1[4][1],1'b0,add_valid_in_0,sum0[4][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_5_0(clk_312_5,rstn,product_d1[5][0],product_d1[5][1],1'b0,add_valid_in_0,sum0[5][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_6_0(clk_312_5,rstn,product_d1[6][0],product_d1[6][1],1'b0,add_valid_in_0,sum0[6][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_7_0(clk_312_5,rstn,product_d1[7][0],product_d1[7][1],1'b0,add_valid_in_0,sum0[7][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_0_0(clk_312_5,rstn,product_d1[0][0],product_d1[0][1],1'b0,add_valid_in_0,sum0[0][0],add_valid_out_0);
+fp32_add_sub fp32_adder_sub_l1_dec_0_1_0(clk_312_5,rstn,product_d1[1][0],product_d1[1][1],1'b0,add_valid_in_0,sum0[1][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_2_0(clk_312_5,rstn,product_d1[2][0],product_d1[2][1],1'b0,add_valid_in_0,sum0[2][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_3_0(clk_312_5,rstn,product_d1[3][0],product_d1[3][1],1'b0,add_valid_in_0,sum0[3][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_4_0(clk_312_5,rstn,product_d1[4][0],product_d1[4][1],1'b0,add_valid_in_0,sum0[4][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_5_0(clk_312_5,rstn,product_d1[5][0],product_d1[5][1],1'b0,add_valid_in_0,sum0[5][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_6_0(clk_312_5,rstn,product_d1[6][0],product_d1[6][1],1'b0,add_valid_in_0,sum0[6][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_7_0(clk_312_5,rstn,product_d1[7][0],product_d1[7][1],1'b0,add_valid_in_0,sum0[7][0],               );
 
-fp32_adder_sub fp32_adder_sub_l1_dec_0_0_1(clk_312_5,rstn,product_d1[0][2],product_d1[0][3],1'b0,add_valid_in_0,sum0[0][1],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_1_1(clk_312_5,rstn,product_d1[1][2],product_d1[1][3],1'b0,add_valid_in_0,sum0[1][1],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_2_1(clk_312_5,rstn,product_d1[2][2],product_d1[2][3],1'b0,add_valid_in_0,sum0[2][1],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_3_1(clk_312_5,rstn,product_d1[3][2],product_d1[3][3],1'b0,add_valid_in_0,sum0[3][1],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_4_1(clk_312_5,rstn,product_d1[4][2],product_d1[4][3],1'b0,add_valid_in_0,sum0[4][1],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_5_1(clk_312_5,rstn,product_d1[5][2],product_d1[5][3],1'b0,add_valid_in_0,sum0[5][1],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_6_1(clk_312_5,rstn,product_d1[6][2],product_d1[6][3],1'b0,add_valid_in_0,sum0[6][1],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_7_1(clk_312_5,rstn,product_d1[7][2],product_d1[7][3],1'b0,add_valid_in_0,sum0[7][1],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_0_1(clk_312_5,rstn,product_d1[0][2],product_d1[0][3],1'b0,add_valid_in_0,sum0[0][1],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_1_1(clk_312_5,rstn,product_d1[1][2],product_d1[1][3],1'b0,add_valid_in_0,sum0[1][1],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_2_1(clk_312_5,rstn,product_d1[2][2],product_d1[2][3],1'b0,add_valid_in_0,sum0[2][1],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_3_1(clk_312_5,rstn,product_d1[3][2],product_d1[3][3],1'b0,add_valid_in_0,sum0[3][1],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_4_1(clk_312_5,rstn,product_d1[4][2],product_d1[4][3],1'b0,add_valid_in_0,sum0[4][1],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_5_1(clk_312_5,rstn,product_d1[5][2],product_d1[5][3],1'b0,add_valid_in_0,sum0[5][1],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_6_1(clk_312_5,rstn,product_d1[6][2],product_d1[6][3],1'b0,add_valid_in_0,sum0[6][1],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_7_1(clk_312_5,rstn,product_d1[7][2],product_d1[7][3],1'b0,add_valid_in_0,sum0[7][1],               );
 
-fp32_adder_sub fp32_adder_sub_l1_dec_0_0_2(clk_312_5,rstn,product_d1[0][4],product_d1[0][5],1'b0,add_valid_in_0,sum0[0][2],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_1_2(clk_312_5,rstn,product_d1[1][4],product_d1[1][5],1'b0,add_valid_in_0,sum0[1][2],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_2_2(clk_312_5,rstn,product_d1[2][4],product_d1[2][5],1'b0,add_valid_in_0,sum0[2][2],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_3_2(clk_312_5,rstn,product_d1[3][4],product_d1[3][5],1'b0,add_valid_in_0,sum0[3][2],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_4_2(clk_312_5,rstn,product_d1[4][4],product_d1[4][5],1'b0,add_valid_in_0,sum0[4][2],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_5_2(clk_312_5,rstn,product_d1[5][4],product_d1[5][5],1'b0,add_valid_in_0,sum0[5][2],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_6_2(clk_312_5,rstn,product_d1[6][4],product_d1[6][5],1'b0,add_valid_in_0,sum0[6][2],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_7_2(clk_312_5,rstn,product_d1[7][4],product_d1[7][5],1'b0,add_valid_in_0,sum0[7][2],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_0_2(clk_312_5,rstn,product_d1[0][4],product_d1[0][5],1'b0,add_valid_in_0,sum0[0][2],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_1_2(clk_312_5,rstn,product_d1[1][4],product_d1[1][5],1'b0,add_valid_in_0,sum0[1][2],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_2_2(clk_312_5,rstn,product_d1[2][4],product_d1[2][5],1'b0,add_valid_in_0,sum0[2][2],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_3_2(clk_312_5,rstn,product_d1[3][4],product_d1[3][5],1'b0,add_valid_in_0,sum0[3][2],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_4_2(clk_312_5,rstn,product_d1[4][4],product_d1[4][5],1'b0,add_valid_in_0,sum0[4][2],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_5_2(clk_312_5,rstn,product_d1[5][4],product_d1[5][5],1'b0,add_valid_in_0,sum0[5][2],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_6_2(clk_312_5,rstn,product_d1[6][4],product_d1[6][5],1'b0,add_valid_in_0,sum0[6][2],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_7_2(clk_312_5,rstn,product_d1[7][4],product_d1[7][5],1'b0,add_valid_in_0,sum0[7][2],               );
 
-fp32_adder_sub fp32_adder_sub_l1_dec_0_0_3(clk_312_5,rstn,product_d1[0][6],product_d1[0][7],1'b0,add_valid_in_0,sum0[0][3],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_1_3(clk_312_5,rstn,product_d1[1][6],product_d1[1][7],1'b0,add_valid_in_0,sum0[1][3],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_2_3(clk_312_5,rstn,product_d1[2][6],product_d1[2][7],1'b0,add_valid_in_0,sum0[2][3],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_3_3(clk_312_5,rstn,product_d1[3][6],product_d1[3][7],1'b0,add_valid_in_0,sum0[3][3],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_4_3(clk_312_5,rstn,product_d1[4][6],product_d1[4][7],1'b0,add_valid_in_0,sum0[4][3],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_5_3(clk_312_5,rstn,product_d1[5][6],product_d1[5][7],1'b0,add_valid_in_0,sum0[5][3],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_6_3(clk_312_5,rstn,product_d1[6][6],product_d1[6][7],1'b0,add_valid_in_0,sum0[6][3],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_0_7_3(clk_312_5,rstn,product_d1[7][6],product_d1[7][7],1'b0,add_valid_in_0,sum0[7][3],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_0_3(clk_312_5,rstn,product_d1[0][6],product_d1[0][7],1'b0,add_valid_in_0,sum0[0][3],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_1_3(clk_312_5,rstn,product_d1[1][6],product_d1[1][7],1'b0,add_valid_in_0,sum0[1][3],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_2_3(clk_312_5,rstn,product_d1[2][6],product_d1[2][7],1'b0,add_valid_in_0,sum0[2][3],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_3_3(clk_312_5,rstn,product_d1[3][6],product_d1[3][7],1'b0,add_valid_in_0,sum0[3][3],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_4_3(clk_312_5,rstn,product_d1[4][6],product_d1[4][7],1'b0,add_valid_in_0,sum0[4][3],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_5_3(clk_312_5,rstn,product_d1[5][6],product_d1[5][7],1'b0,add_valid_in_0,sum0[5][3],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_6_3(clk_312_5,rstn,product_d1[6][6],product_d1[6][7],1'b0,add_valid_in_0,sum0[6][3],               );
+fp32_add_sub fp32_adder_sub_l1_dec_0_7_3(clk_312_5,rstn,product_d1[7][6],product_d1[7][7],1'b0,add_valid_in_0,sum0[7][3],               );
 
 reg add_valid_out_0_d1;
 reg [31:0]sum0_d1[0:7][0:3];
@@ -312,23 +312,23 @@ wire add_valid_out_1;
 
 wire [31:0] sum1[0:7][0:1];//0-1是只有两个结�?
 
-fp32_adder_sub fp32_adder_sub_l1_dec_1_0_0(clk_312_5,rstn,sum0_d1[0][0],sum0_d1[0][1],1'b0,add_valid_in_1,sum1[0][0],add_valid_out_1);
-fp32_adder_sub fp32_adder_sub_l1_dec_1_1_0(clk_312_5,rstn,sum0_d1[1][0],sum0_d1[1][1],1'b0,add_valid_in_1,sum1[1][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_1_2_0(clk_312_5,rstn,sum0_d1[2][0],sum0_d1[2][1],1'b0,add_valid_in_1,sum1[2][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_1_3_0(clk_312_5,rstn,sum0_d1[3][0],sum0_d1[3][1],1'b0,add_valid_in_1,sum1[3][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_1_4_0(clk_312_5,rstn,sum0_d1[4][0],sum0_d1[4][1],1'b0,add_valid_in_1,sum1[4][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_1_5_0(clk_312_5,rstn,sum0_d1[5][0],sum0_d1[5][1],1'b0,add_valid_in_1,sum1[5][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_1_6_0(clk_312_5,rstn,sum0_d1[6][0],sum0_d1[6][1],1'b0,add_valid_in_1,sum1[6][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_1_7_0(clk_312_5,rstn,sum0_d1[7][0],sum0_d1[7][1],1'b0,add_valid_in_1,sum1[7][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_1_0_0(clk_312_5,rstn,sum0_d1[0][0],sum0_d1[0][1],1'b0,add_valid_in_1,sum1[0][0],add_valid_out_1);
+fp32_add_sub fp32_adder_sub_l1_dec_1_1_0(clk_312_5,rstn,sum0_d1[1][0],sum0_d1[1][1],1'b0,add_valid_in_1,sum1[1][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_1_2_0(clk_312_5,rstn,sum0_d1[2][0],sum0_d1[2][1],1'b0,add_valid_in_1,sum1[2][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_1_3_0(clk_312_5,rstn,sum0_d1[3][0],sum0_d1[3][1],1'b0,add_valid_in_1,sum1[3][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_1_4_0(clk_312_5,rstn,sum0_d1[4][0],sum0_d1[4][1],1'b0,add_valid_in_1,sum1[4][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_1_5_0(clk_312_5,rstn,sum0_d1[5][0],sum0_d1[5][1],1'b0,add_valid_in_1,sum1[5][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_1_6_0(clk_312_5,rstn,sum0_d1[6][0],sum0_d1[6][1],1'b0,add_valid_in_1,sum1[6][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_1_7_0(clk_312_5,rstn,sum0_d1[7][0],sum0_d1[7][1],1'b0,add_valid_in_1,sum1[7][0],               );
 
-fp32_adder_sub fp32_adder_sub_l1_dec_1_0_1(clk_312_5,rstn,sum0_d1[0][2],sum0_d1[0][3],1'b0,add_valid_in_1,sum1[0][1],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_1_1_1(clk_312_5,rstn,sum0_d1[1][2],sum0_d1[1][3],1'b0,add_valid_in_1,sum1[1][1],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_1_2_1(clk_312_5,rstn,sum0_d1[2][2],sum0_d1[2][3],1'b0,add_valid_in_1,sum1[2][1],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_1_3_1(clk_312_5,rstn,sum0_d1[3][2],sum0_d1[3][3],1'b0,add_valid_in_1,sum1[3][1],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_1_4_1(clk_312_5,rstn,sum0_d1[4][2],sum0_d1[4][3],1'b0,add_valid_in_1,sum1[4][1],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_1_5_1(clk_312_5,rstn,sum0_d1[5][2],sum0_d1[5][3],1'b0,add_valid_in_1,sum1[5][1],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_1_6_1(clk_312_5,rstn,sum0_d1[6][2],sum0_d1[6][3],1'b0,add_valid_in_1,sum1[6][1],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_1_7_1(clk_312_5,rstn,sum0_d1[7][2],sum0_d1[7][3],1'b0,add_valid_in_1,sum1[7][1],               );
+fp32_add_sub fp32_adder_sub_l1_dec_1_0_1(clk_312_5,rstn,sum0_d1[0][2],sum0_d1[0][3],1'b0,add_valid_in_1,sum1[0][1],               );
+fp32_add_sub fp32_adder_sub_l1_dec_1_1_1(clk_312_5,rstn,sum0_d1[1][2],sum0_d1[1][3],1'b0,add_valid_in_1,sum1[1][1],               );
+fp32_add_sub fp32_adder_sub_l1_dec_1_2_1(clk_312_5,rstn,sum0_d1[2][2],sum0_d1[2][3],1'b0,add_valid_in_1,sum1[2][1],               );
+fp32_add_sub fp32_adder_sub_l1_dec_1_3_1(clk_312_5,rstn,sum0_d1[3][2],sum0_d1[3][3],1'b0,add_valid_in_1,sum1[3][1],               );
+fp32_add_sub fp32_adder_sub_l1_dec_1_4_1(clk_312_5,rstn,sum0_d1[4][2],sum0_d1[4][3],1'b0,add_valid_in_1,sum1[4][1],               );
+fp32_add_sub fp32_adder_sub_l1_dec_1_5_1(clk_312_5,rstn,sum0_d1[5][2],sum0_d1[5][3],1'b0,add_valid_in_1,sum1[5][1],               );
+fp32_add_sub fp32_adder_sub_l1_dec_1_6_1(clk_312_5,rstn,sum0_d1[6][2],sum0_d1[6][3],1'b0,add_valid_in_1,sum1[6][1],               );
+fp32_add_sub fp32_adder_sub_l1_dec_1_7_1(clk_312_5,rstn,sum0_d1[7][2],sum0_d1[7][3],1'b0,add_valid_in_1,sum1[7][1],               );
 
 reg add_valid_out_1_d1;
 reg [31:0]sum1_d1[0:7][0:1];
@@ -349,25 +349,55 @@ wire add_valid_out_2;
 
 wire [31:0] sum2[0:7][0:0];//0是只有两个结�?
 
-fp32_adder_sub fp32_adder_sub_l1_dec_2_0_0(clk_312_5,rstn,sum1_d1[0][0],sum1_d1[0][1],1'b0,add_valid_in_2,sum2[0][0],add_valid_out_2);
-fp32_adder_sub fp32_adder_sub_l1_dec_2_1_0(clk_312_5,rstn,sum1_d1[1][0],sum1_d1[1][1],1'b0,add_valid_in_2,sum2[1][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_2_2_0(clk_312_5,rstn,sum1_d1[2][0],sum1_d1[2][1],1'b0,add_valid_in_2,sum2[2][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_2_3_0(clk_312_5,rstn,sum1_d1[3][0],sum1_d1[3][1],1'b0,add_valid_in_2,sum2[3][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_2_4_0(clk_312_5,rstn,sum1_d1[4][0],sum1_d1[4][1],1'b0,add_valid_in_2,sum2[4][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_2_5_0(clk_312_5,rstn,sum1_d1[5][0],sum1_d1[5][1],1'b0,add_valid_in_2,sum2[5][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_2_6_0(clk_312_5,rstn,sum1_d1[6][0],sum1_d1[6][1],1'b0,add_valid_in_2,sum2[6][0],               );
-fp32_adder_sub fp32_adder_sub_l1_dec_2_7_0(clk_312_5,rstn,sum1_d1[7][0],sum1_d1[7][1],1'b0,add_valid_in_2,sum2[7][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_2_0_0(clk_312_5,rstn,sum1_d1[0][0],sum1_d1[0][1],1'b0,add_valid_in_2,sum2[0][0],add_valid_out_2);
+fp32_add_sub fp32_adder_sub_l1_dec_2_1_0(clk_312_5,rstn,sum1_d1[1][0],sum1_d1[1][1],1'b0,add_valid_in_2,sum2[1][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_2_2_0(clk_312_5,rstn,sum1_d1[2][0],sum1_d1[2][1],1'b0,add_valid_in_2,sum2[2][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_2_3_0(clk_312_5,rstn,sum1_d1[3][0],sum1_d1[3][1],1'b0,add_valid_in_2,sum2[3][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_2_4_0(clk_312_5,rstn,sum1_d1[4][0],sum1_d1[4][1],1'b0,add_valid_in_2,sum2[4][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_2_5_0(clk_312_5,rstn,sum1_d1[5][0],sum1_d1[5][1],1'b0,add_valid_in_2,sum2[5][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_2_6_0(clk_312_5,rstn,sum1_d1[6][0],sum1_d1[6][1],1'b0,add_valid_in_2,sum2[6][0],               );
+fp32_add_sub fp32_adder_sub_l1_dec_2_7_0(clk_312_5,rstn,sum1_d1[7][0],sum1_d1[7][1],1'b0,add_valid_in_2,sum2[7][0],               );
 
-always@(posedge clk_312_5)
-begin
-  dout_valid<=add_valid_out_2;
-  a1_0<=sum2[0][0];
-  a1_1<=sum2[1][0];
-  a1_2<=sum2[2][0];  
-  a1_3<=sum2[3][0];
-  a1_4<=sum2[4][0];
-  a1_5<=sum2[5][0];
-  a1_6<=sum2[6][0];  
-  a1_7<=sum2[7][0];  
-end    
+ reg [2:0]dout_valid_d;
+ reg [31:0] a1_d[0:7][0:3];//a1_d延长4个312.5Mhz周期,dout_valid_d延长3个周期，
+ //以使用clk_slow对齐进行延长至4为t_slow的单位，且使得二者对齐
+ always@(posedge clk_312_5)
+     begin
+         dout_valid_d<={dout_valid_d[1:0],add_valid_out_2};
+         for (i=0;i<8;i=i+1)
+             begin
+                 a1_d[i][0]<=sum2[i][0];
+                 for(j=1;j<4;j=j+1)
+                     begin
+                        a1_d[i][j]<=a1_d[i][j-1];
+                     end
+          
+             end
+     end
+ always@(posedge clk_78_125)
+ begin
+   dout_valid<=dout_valid_d[2];
+   a1_0<=a1_d[0][3];
+   a1_1<=a1_d[1][3];
+   a1_2<=a1_d[2][3];  
+   a1_3<=a1_d[3][3];
+   a1_4<=a1_d[4][3];
+   a1_5<=a1_d[5][3];
+   a1_6<=a1_d[6][3];  
+   a1_7<=a1_d[7][3];  
+ end    
+
+// always@(posedge clk_312_5)
+// begin
+//   dout_valid<=add_valid_out_2;
+//   a1_0<=sum2[0][0];
+//   a1_1<=sum2[1][0];
+//   a1_2<=sum2[2][0];  
+//   a1_3<=sum2[3][0];
+//   a1_4<=sum2[4][0];
+//   a1_5<=sum2[5][0];
+//   a1_6<=sum2[6][0];  
+//   a1_7<=sum2[7][0];
+// end
+
 endmodule
